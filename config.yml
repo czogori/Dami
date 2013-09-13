@@ -1,0 +1,27 @@
+migrations: @@DAMI_DIRECTORY@@/migrations
+environments:
+    current_environment: development
+
+    production:
+        adapter:  pgsql
+        host:     localhost
+        database: dami
+        username: postgres
+        password: 
+        port:     5432
+
+    development:
+        adapter:  pgsql
+        host:     localhost
+        database: dami
+        username: postgres
+        password: 
+        port:     5432
+
+    test:
+        adapter:  pgsql
+        host:     localhost
+        database: dami
+        username: postgres
+        password: 
+        port:     5432    
