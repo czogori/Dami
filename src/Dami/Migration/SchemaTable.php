@@ -5,7 +5,9 @@ namespace Dami\Migration;
 use Dami\Container;
 use Rentgen\Database\Connection\Connection;
 use Rentgen\Database\Table;
-use Rentgen\Database\Column;
+use Rentgen\Database\Column\DateTimeColumn;
+use Rentgen\Database\Column\IntegerColumn;
+use Rentgen\Database\Constraint\PrimaryKey;
 use Rentgen\Schema\Manipulation;
 use Rentgen\Schema\Info;
 
@@ -90,8 +92,11 @@ class SchemaTable
 			return;
 		}
 		$table
-			->addColumn(new Column('version', 'biginteger'))
-			->addColumn(new Column('created_at', 'timestamp', array('nullable' => false, 'default' => 'now()')));		
-		$this->manipulation->createTable($table);		
+			->addColumn(new IntegerColumn('version', 'biginteger'))
+			->addColumn(new DateTimeColumn('created_at', 'timestamp', array('nullable' => false, 'default' => 'now()')));		
+
+		$primaryKey = new PrimaryKey(array('version'));
+		$primaryKey->setTable($table);
+		$this->manipulation->createTable($table, array($primaryKey));		
 	}	
 }

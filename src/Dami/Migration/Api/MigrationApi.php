@@ -36,7 +36,7 @@ abstract class MigrationApi
 	{		
 		$table = new Table($name);			
 		$this->actions[] =  function () use($table) {
-    		return $this->manipulation->dropTable($table);    			
+    		return $this->manipulation->dropTable($table, true);    			
     	};
 		return $table;
 	}	
