@@ -14,9 +14,8 @@ class RollbackCommand extends Console\Command\Command
     protected function configure()
     {
         $this
-        ->setName('rollback')
-        ->setDescription('Rollback migrations.')
-        ->addArgument('to-version', InputArgument::OPTIONAL, 'Rollback to specific version of migrations');
+            ->setDescription('Rollback migrations.')
+            ->addArgument('to-version', InputArgument::OPTIONAL, 'Rollback to specific version of migrations');
     }
  
     protected function execute(InputInterface $input, OutputInterface $output) 

@@ -8,23 +8,19 @@ use Symfony\Component\Console\Input\InputArgument,
     Symfony\Component\Console\Input\InputInterface,
     Symfony\Component\Console\Output\OutputInterface;
 
-use Dami\Container;
 use Dami\Migration\MigrationFiles;
- 
 
-class StatusCommand extends Console\Command\Command
+class StatusCommand extends AbstractCommand
 {    
     protected function configure()
     {
-        $this
-            ->setName('status')
+        $this            
             ->setDescription('Migrations status.');        
     }
  
     protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $container = new Container();        
-        $migrationFiles = $container->get('migration_files');
+    {        
+        $migrationFiles = $this->container->get('migration_files');
         
         $rows = array();
         foreach ($migrationFiles->getFiles() as $migrationFile) {

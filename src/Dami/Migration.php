@@ -9,8 +9,7 @@ use Dami\Migration\MigrationFiles;
 use Dami\Migration\Api\MigrationApi;
 
 class Migration
-{
-	
+{	
 	public function migrate()
 	{	
 		return $this->execute(Direction::UP);

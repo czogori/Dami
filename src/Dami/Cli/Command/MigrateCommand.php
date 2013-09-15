@@ -14,9 +14,8 @@ class MigrateCommand extends Console\Command\Command
 {
     protected function configure()
     {
-        $this
-        ->setName('migrate')
-        ->setDescription('Migrate database.');
+        $this            
+            ->setDescription('Migrate database.');
     }
  
     protected function execute(InputInterface $input, OutputInterface $output) 

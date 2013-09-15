@@ -10,18 +10,16 @@ use Symfony\Component\Console\Input\InputArgument,
     Symfony\Component\Filesystem\Filesystem;    
 
 use Dami\Migration\TemplateRenderer,
-    Dami\Migration\FileNameBuilder,
-    Dami\Container;
+    Dami\Migration\FileNameBuilder;    
     
 class CreateCommand extends Command
 {    
     protected function configure()
     {
         $this
-        ->setName('create')
-        ->setDescription('Create a new migration.')
-        ->setDefinition(array(
-            new InputArgument('migration_name', InputArgument::REQUIRED, 'Migration name'),            
+            ->setDescription('Create a new migration.')
+            ->setDefinition(array(
+                new InputArgument('migration_name', InputArgument::REQUIRED, 'Migration name'),            
         ));             
     }
  
@@ -33,10 +31,9 @@ class CreateCommand extends Command
         $filenameBuilder = new FileNameBuilder($migrationName);
         $fileName = $filenameBuilder->build();
 
-        $fileSystem = new Filesystem();
-        $container = new Container();
+        $fileSystem = new Filesystem();        
 
-        $templateRenderer = $container->get('template_renderer');    
+        $templateRenderer = $this->container->get('template_renderer');    
         
         // TODO load directory migration from config.yml
         $directory = 'migrations' . DIRECTORY_SEPARATOR;
