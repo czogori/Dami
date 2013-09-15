@@ -19,7 +19,8 @@ class FileNameBuilder
 	public function build($timestamp = null)
 	{
 		if(null === $timestamp) {
-			$timestamp = (new \DateTime())->format('YmdHis');
+			$timestamp = new \DateTime();
+			$timestamp = $timestamp->format('YmdHis');
 		}
         $fileName = sprintf('%s_%s.php', $timestamp, StringHelper::underscore($this->migrationName));
         return $fileName;
