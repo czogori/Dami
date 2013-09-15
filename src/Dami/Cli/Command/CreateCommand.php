@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputArgument,
 use Dami\Migration\TemplateRenderer,
     Dami\Migration\FileNameBuilder;    
     
-class CreateCommand extends Command
+class CreateCommand extends ContainerAwareCommand
 {    
     protected function configure()
     {
@@ -33,7 +33,7 @@ class CreateCommand extends Command
 
         $fileSystem = new Filesystem();        
 
-        $templateRenderer = $this->container->get('template_renderer');    
+        $templateRenderer = $this->getContainer()->get('template_renderer');    
         
         // TODO load directory migration from config.yml
         $directory = 'migrations' . DIRECTORY_SEPARATOR;

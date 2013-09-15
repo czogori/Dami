@@ -6,13 +6,18 @@ use Symfony\Component\Console\Command\Command;
 
 use Dami\Container;
 
-class AbstractCommand extends Command
+abstract class ContainerAwareCommand extends Command
 {
-	protected $container;
+	private $container;
 
     public function __construct($name = null, Container $container)
     {
     	parent::__construct($name);
         $this->container = $container;        
+    }
+
+    protected function getContainer()
+    {
+    	return $this->container;
     }
 }

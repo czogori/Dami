@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputArgument,
 
 use Dami\Migration\MigrationFiles;
 
-class StatusCommand extends AbstractCommand
+class StatusCommand extends ContainerAwareCommand
 {    
     protected function configure()
     {
@@ -20,7 +20,7 @@ class StatusCommand extends AbstractCommand
  
     protected function execute(InputInterface $input, OutputInterface $output)
     {        
-        $migrationFiles = $this->container->get('migration_files');
+        $migrationFiles = $this->getContainer()->get('migration_files');
         
         $rows = array();
         foreach ($migrationFiles->getFiles() as $migrationFile) {

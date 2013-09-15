@@ -4,13 +4,12 @@ namespace Dami\Cli\Command;
  
 use Symfony\Component\Console\Input\InputArgument,
     Symfony\Component\Console\Input\InputOption,
-    Symfony\Component\Console,
     Symfony\Component\Console\Input\InputInterface,
     Symfony\Component\Console\Output\OutputInterface;
 
 use Dami\Migration;
 
-class MigrateCommand extends Console\Command\Command
+class MigrateCommand extends MigrationAwareCommand
 {
     protected function configure()
     {
@@ -20,7 +19,7 @@ class MigrateCommand extends Console\Command\Command
  
     protected function execute(InputInterface $input, OutputInterface $output) 
     {
-        $migration = new Migration();
+        $migration = $this->getMigration();
         $numberMigrations = $migration->migrate();
 
         if ($numberMigrations > 0) {

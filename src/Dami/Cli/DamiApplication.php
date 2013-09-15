@@ -11,7 +11,7 @@ use Symfony\Component\Console\Application,
     Dami\Cli\Command\StatusCommand;
 
 use Dami\Container;    
- 
+use Dami\Migration;
 
 class DamiApplication extends Application 
 {
@@ -20,10 +20,12 @@ class DamiApplication extends Application
         parent::__construct('Dami - [Da]tabase [mi]grations for PHP', '1.0');
     
         $container = new Container();
+        $migration = new Migration($container);
+
         $this->addCommands(array(
             new CreateCommand('create', $container),
-            new MigrateCommand('migrate', $container),
-            new RollbackCommand('rollback', $container),
+            new MigrateCommand('migrate', $migration),
+            new RollbackCommand('rollback', $migration),
             new StatusCommand('status', $container)
         ));
     }

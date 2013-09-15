@@ -9,7 +9,14 @@ use Dami\Migration\MigrationFiles;
 use Dami\Migration\Api\MigrationApi;
 
 class Migration
-{	
+{
+	private $container;
+
+	public function __construct(Container $container)
+	{
+		$this->container = $container;
+	}
+
 	public function migrate()
 	{	
 		return $this->execute(Direction::UP);
@@ -21,11 +28,10 @@ class Migration
 	}
 
 	private function execute($direction = Direction::UP, $version = null)
-	{				
-		$container = new Container();
-		$schemaTable = $container->get('schema_table');				
-		$migrationFiles = $container->get('migration_files');
-		$schemaManipulation = $container->get('schema.manipulation');
+	{						
+		$schemaTable = $this->container->get('schema_table');				
+		$migrationFiles = $this->container->get('migration_files');
+		$schemaManipulation = $this->container->get('schema.manipulation');
 
 		if(Direction::UP) {
 			$files = $migrationFiles->getFiles();
