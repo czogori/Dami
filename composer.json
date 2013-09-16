@@ -13,7 +13,6 @@
         "symfony/filesystem": "2.4.*@dev",
         "symfony/templating": "2.4.*@dev",
         "symfony/yaml": "2.4.*@dev",
-        "pimple/pimple": "1.0.*@dev",
         "czogori/rentgen": "master-dev"
 
     },
