@@ -56,7 +56,7 @@ abstract class MigrationApi
 	public function dropTable($name, $cascade = true)
 	{		
 		$table = new Table($name);			
-		$this->actions[] =  function () use($table) {
+		$this->actions[] =  function () use($table, $cascade) {
     		return $this->manipulation->dropTable($table, $cascade);    			
     	};		
 	}	
