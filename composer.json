@@ -13,7 +13,7 @@
         "symfony/filesystem": "2.4.x-dev",
         "symfony/templating": "2.3.*@dev",
         "symfony/yaml": "2.4.x-dev",
-        "czogori/rentgen": "master-dev"
+        "czogori/rentgen": "dev-master"
 
     },
     "authors": [
