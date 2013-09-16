@@ -33,14 +33,13 @@ class Migration
 		$migrationFiles = $this->container->get('migration_files');
 		$schemaManipulation = $this->container->get('schema.manipulation');
 
-		if(Direction::UP) {
+		if($direction === Direction::UP) {			
 			$files = $migrationFiles->getFiles();
-		} else {
-			$files = 0 === $version ? $migrationFiles->getFilesInReverseOrder() : array($migrationFiles->getLatest());
+		} else {			
+			$files = '0' === $version ? $migrationFiles->getFilesInReverseOrder() : array($migrationFiles->getLatest());
 		}
 
-		$i = 0;
-
+		$i = 0;			
 		foreach ($files as $file) {    			
 			
 			if(null === $file) {
