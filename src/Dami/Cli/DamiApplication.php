@@ -2,21 +2,18 @@
 
 namespace Dami\Cli;
  
-//require_once __DIR__ . '/../../../vendor/autoload.php';
-
-use Symfony\Component\Console\Application,
-    Dami\Cli\Command\CreateCommand,
+use Symfony\Component\Console\Application;
+use Dami\Cli\Command\CreateCommand,
     Dami\Cli\Command\MigrateCommand,
     Dami\Cli\Command\RollbackCommand,
-    Dami\Cli\Command\StatusCommand;
-
-use Dami\Container;    
-use Dami\Migration;
+    Dami\Cli\Command\StatusCommand,
+    Dami\Container,
+    Dami\Migration;
 
 class DamiApplication extends Application 
 {
- 
-    public function __construct() {
+    public function __construct() 
+    {
         parent::__construct('Dami - [Da]tabase [mi]grations for PHP', '1.0');
     
         $container = new Container();
