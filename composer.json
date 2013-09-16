@@ -20,5 +20,6 @@
             "Dami": "src/"
         }
     },
+    "minimum-stability": "dev",
     "bin": ["bin/dami"]
 }
