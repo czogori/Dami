@@ -2,27 +2,29 @@
 
 namespace Dami\Migration;
 
-use Dami\Container;
 use Rentgen\Database\Connection\Connection;
 use Rentgen\Database\Table;
 use Rentgen\Database\Column\DateTimeColumn;
-use Rentgen\Database\Column\IntegerColumn;
+use Rentgen\Database\Column\BigIntegerColumn;
 use Rentgen\Database\Constraint\PrimaryKey;
 use Rentgen\Schema\Manipulation;
 use Rentgen\Schema\Info;
 
+/**
+ * @author Arek Jaskólski <arek.jaskolski@gmail.com>
+ */
 class SchemaTable
 {
-	private $connection;
-	private $container;
+	private $connection;	
 	private $manipulation;
 	private $info;
 
 	/**
-	 * [__construct description]
-	 * @param Connection   $connection   [description]
-	 * @param Manipulation $manipulation [description]
-	 * @param Info         $info         [description]
+	 * Constructor.
+	 * 
+	 * @param Connection   $connection   Connection instance.
+	 * @param Manipulation $manipulation Manipulation instance.
+	 * @param Info         $info         Info instance.
 	 */
 	public function __construct(Connection $connection, Manipulation $manipulation, Info $info)
 	{
@@ -34,34 +36,38 @@ class SchemaTable
 	}
 
 	/**
-	 * [up description]
-	 * @param  [type] $version [description]
-	 * @return [type]          [description]
+	 * Add a new migrate entry.
+	 * 
+	 * @param  string $version Version of migration.
+	 *
+	 * @return void
 	 */
 	public function up($version)
-	{
-		//$this->createIfNotExists();
+	{		
 		$sql = sprintf('INSERT INTO schema_migration (version,created_at) VALUES (%s, now())', $version);
 		$this->connection->execute($sql);
 	}
 
 	/**
-	 * [down description]
-	 * @param  [type] $version [description]
-	 * @return [type]          [description]
+	 * Delete a migrate entry.
+	 * 
+	 * @param  string $version Version of migration.
+	 * 
+	 * @return void
 	 */
 	public function down($version)
 	{
-		$this->deleteVersion($version);
+		$sql = sprintf('DELETE FROM schema_migration WHERE version = \'%s\'', $version);
+		$this->connection->execute($sql);
 	}
 
 	/**
-	 * [getVersions description]
-	 * @return [type] [description]
+	 * Get all versions of migrations.
+	 * 
+	 * @return array Versions of migrations.
 	 */
 	public function getVersions()
-	{
-		//$this->createIfNotExists();
+	{		
 		$sql = 'SELECT version FROM schema_migration ORDER BY version DESC';		
 		$versions = array();
 		foreach ($this->connection->query($sql) as $row) {
@@ -71,19 +77,9 @@ class SchemaTable
 	}
 
 	/**
-	 * [deleteVersion description]
-	 * @param  [type] $version [description]
-	 * @return [type]          [description]
-	 */
-	private function deleteVersion($version)
-	{
-		$sql = sprintf('DELETE FROM schema_migration WHERE version = \'%s\'', $version);
-		$this->connection->execute($sql);
-	}
-
-	/**
-	 * [createIfNotExists description]
-	 * @return [type] [description]
+	 * Create schema table if not exists.
+	 * 
+	 * @return void
 	 */
 	private function createIfNotExists()
 	{
@@ -92,8 +88,8 @@ class SchemaTable
 			return;
 		}
 		$table
-			->addColumn(new IntegerColumn('version', 'biginteger'))
-			->addColumn(new DateTimeColumn('created_at', 'timestamp', array('nullable' => false, 'default' => 'now()')));		
+			->addColumn(new BigIntegerColumn('version'))
+			->addColumn(new DateTimeColumn('created_at', array('nullable' => false, 'default' => 'now()')));		
 
 		$primaryKey = new PrimaryKey(array('version'));
 		$primaryKey->setTable($table);
