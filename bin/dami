@@ -1,9 +1,21 @@
 #!/usr/bin/env php
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
+function includeIfExists($file)
+{
+    if (file_exists($file)) {
+        return include $file;
+    }
+}
 
-use Dami\Cli\DamiApplication;
+if (!includeIfExists(__DIR__.'/../vendor/autoload.php') 
+	&& !includeIfExists(__DIR__.'/../../../autoload.php')) {
+    die(
+        'You need to set up the project dependencies, run the following commands:' . PHP_EOL .
+        'curl -s http://getcomposer.org/installer | php' . PHP_EOL .
+        'php composer.phar install' . PHP_EOL
+    );
+}
 
-$dami = new DamiApplication();
+$dami = new Dami\Cli\DamiApplication();
 $dami->run();
