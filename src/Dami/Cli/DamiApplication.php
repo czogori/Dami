@@ -14,7 +14,7 @@ class DamiApplication extends Application
 {
     public function __construct() 
     {
-        parent::__construct('Dami - [Da]tabase [mi]grations for PHP', '1.0');
+        parent::__construct('Dami - [Da]tabase [mi]grations for PHP', '0.3');
     
         $container = new Container();
         $migration = new Migration($container);
