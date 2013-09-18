@@ -5,8 +5,8 @@
     "license": "MIT",    
     "require": {        
         "php": ">=5.3.2",
-        "symfony/console": "2.3.3",        
-        "symfony/templating": "2.3.3",        
+        "symfony/console": "2.4.*@dev",        
+        "symfony/templating": "2.4.*@dev",        
         "czogori/rentgen": "dev-master"
     },
     "authors": [
