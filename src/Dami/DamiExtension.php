@@ -16,27 +16,33 @@ class DamiExtension implements ExtensionInterface
 {    
     public function load(array $configs, ContainerBuilder $container)
     {       
-
-    	$loader = new YamlFileLoader($container, new FileLocator(array(__DIR__)));
-		$locator = new FileLocator(__DIR__);
-		$yamlUserFiles = $locator->locate('services.yml', null, false);
-		foreach ($yamlUserFiles as $yamlUserFile) {
-			$loader->load($yamlUserFile);	
-		}        
-
+        $this->defineParameters($container);
+    	
 		$fileLocator = new FileLocator(getcwd());
         $configFile = $fileLocator->locate('config.yml');  
         $config = Yaml::parse($configFile);
         
         $migrationsDirectory = str_replace('@@DAMI_DIRECTORY@@', getcwd(), $config['migrations']);
 
+        $definition = new Definition($container->getParameter('service_container.class'));        
+        $container->setDefinition('service_container', $definition); 
+
+        $definition = new Definition($container->getParameter('migration_name_parser.class'));        
+        $container->setDefinition('migration_name_parser', $definition); 
+
+        $definition = new Definition($container->getParameter('template_initialization.class'), array(new Reference('migration_name_parser')));        
+        $container->setDefinition('template_initialization', $definition); 
+
+        $definition = new Definition($container->getParameter('template_renderer.class'), array(new Reference('template_initialization')));        
+        $container->setDefinition('template_renderer', $definition); 
+
+        $definition = new Definition('Dami\Migration\SchemaTable');
+        $definition->setArguments(array(new Reference('connection'), new Reference('schema.manipulation'), new Reference('schema.info')));
+        $container->setDefinition('schema_table', $definition);
 
         $definition = new Definition('Dami\Migration\MigrationFiles');
         $definition->setArguments(array($migrationsDirectory, new Reference('schema_table')));
         $container->setDefinition('migration_files', $definition); 
-        
-        
-        //$container->addCompilerPass(new ListenerPass(), PassConfig::TYPE_AFTER_REMOVING);
     }
 
     public function getAlias()
@@ -53,4 +59,13 @@ class DamiExtension implements ExtensionInterface
 	{
 	    return 'http://www.example.com/symfony/schema/';
 	}
+
+    private function defineParameters(ContainerBuilder $container)
+    {        
+        $container->setParameter('service_container.class', 'Dami\Container');
+        $container->setParameter('api.class', 'Dami\Migration\Api\ApiMigration');
+        $container->setParameter('template_renderer.class', 'Dami\Migration\TemplateRenderer');
+        $container->setParameter('template_initialization.class', 'Dami\Migration\TemplateInitialization');
+        $container->setParameter('migration_name_parser.class', 'Dami\Migration\MigrationNameParser');        
+    }
 }
