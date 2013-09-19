@@ -2,6 +2,7 @@
 
 namespace Dami;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Dami\Migration\Direction;
 use Dami\Migration\FilenameParser;
@@ -12,7 +13,7 @@ class Migration
 {
 	private $container;
 
-	public function __construct(Container $container)
+	public function __construct(ContainerInterface $container)
 	{
 		$this->container = $container;
 	}
