@@ -39,9 +39,10 @@ abstract class MigrationApi
 			? new PrimaryKey($options['primary_key'])
 			: new PrimaryKey();
 
-		$this->actions[] =  function () use($table, $primaryKey) {
-    		return $this->manipulation->createTable($table, array($primaryKey));    			
-    	};
+		$manipulation = $this->manipulation;
+		$this->actions[] =  function () use($manipulation, $table, $primaryKey) {
+     		return $manipulation->createTable($table, array($primaryKey));     
+     	};
 		return $table;
 	}
 
@@ -56,9 +57,10 @@ abstract class MigrationApi
 	public function dropTable($name, $cascade = true)
 	{		
 		$table = new Table($name);			
-		$this->actions[] =  function () use($table, $cascade) {
-    		return $this->manipulation->dropTable($table, $cascade);    			
-    	};		
+		$manipulation = $this->manipulation; 
+		$this->actions[] =  function () use($manipulation, $table, $cascade) {
+     		return $manipulation->dropTable($table, $cascade);     
+     	}; 
 	}	
 
 	/**
@@ -70,8 +72,9 @@ abstract class MigrationApi
 	{
 		$foreignKey = new ForeignKey(new Table('foo'), new Table('fof'));
 		
-		$this->actions[] =  function () use($foreignKey) {
-    		return $this->manipulation->addForeignKey($foreignKey);    			
+		$manipulation = $this->manipulation; 
+		$this->actions[] =  function () use($manipulation, $foreignKey) {
+    		return $manipulation->addForeignKey($foreignKey);    			
     	};
 		return $foreignKey;
 	}
