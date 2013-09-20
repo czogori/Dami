@@ -5,6 +5,7 @@ namespace Dami\Migration\Api;
 use Rentgen\Database\Table as RentgenTable;
 use Rentgen\Database\Column\StringColumn;
 use Rentgen\Database\Column\IntegerColumn;
+use Rentgen\Database\Column\DateColumn;
 use Rentgen\Database\Column\DateTimeColumn;
 use Rentgen\Database\Column\BooleanColumn;
 use Rentgen\Database\Column\TextColumn;
@@ -32,6 +33,18 @@ class Table extends RentgenTable
 	public function addBooleanColumn($name, array $options = array())
 	{
 		$this->columns[] = new BooleanColumn($name, $options);
+		return $this;	
+	}
+
+	public function addDateTimeColumn($name, array $options = array())
+	{
+		$this->columns[] = new DatetimeColumn($name, $options);
+		return $this;	
+	}
+
+	public function addDAteColumn($name, array $options = array())
+	{
+		$this->columns[] = new DateColumn($name, $options);
 		return $this;	
 	}
 
