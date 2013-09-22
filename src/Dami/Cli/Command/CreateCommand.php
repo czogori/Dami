@@ -34,11 +34,9 @@ class CreateCommand extends ContainerAwareCommand
         $fileSystem = new Filesystem();        
 
         $templateRenderer = $this->getContainer()->get('template_renderer');    
+        $migrationDirectory = $this->getContainer()->getparameter('migrations_directory');        
         
-        // TODO load directory migration from config.yml
-        $directory = 'migrations' . DIRECTORY_SEPARATOR;
-        $path = $directory . $fileName;
-        
+        $path = $migrationDirectory . DIRECTORY_SEPARATOR . $fileName;        
         $fileSystem->dumpFile($path, $templateRenderer->render($migrationName));        
     }
 }
