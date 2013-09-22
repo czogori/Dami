@@ -2,19 +2,14 @@
 
 namespace Dami;
 
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Yaml\Yaml;
 
 use Rentgen\RentgenExtension;
-use Rentgen\Database\Connection\ConnectionConfig;
-
-
-use Symfony\Component\DependencyInjection\Compiler\PassConfig;
-
-
 use Rentgen\ListenerPass;
-use Symfony\Component\Yaml\Yaml;
 
 class Dami
 {
@@ -30,7 +25,7 @@ class Dami
 
         $currentEnvironment = $config['environments']['current_environment'];
         
-        $connectionConfig = new ConnectionConfig($config['environments'][$currentEnvironment]);
+        $connectionConfig = $config['environments'][$currentEnvironment];
 
         $extensions = array(
         	new RentgenExtension($connectionConfig),
