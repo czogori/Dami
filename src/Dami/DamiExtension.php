@@ -15,14 +15,15 @@ use Rentgen\ListenerPass;
 class DamiExtension implements ExtensionInterface
 {    
     public function load(array $configs, ContainerBuilder $container)
-    {       
-        $this->defineParameters($container);
-    	
+    {                   	
 		$fileLocator = new FileLocator(getcwd());
         $configFile = $fileLocator->locate('config.yml');  
         $config = Yaml::parse($configFile);
         
         $migrationsDirectory = str_replace('@@DAMI_DIRECTORY@@', getcwd(), $config['migrations']);
+
+        $container->setParameter('migrations_directory', $migrationsDirectory);        
+        $this->defineParameters($container);
 
         $definition = new Definition($container->getParameter('service_container.class'));        
         $container->setDefinition('service_container', $definition); 
