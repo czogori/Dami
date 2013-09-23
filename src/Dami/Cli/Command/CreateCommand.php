@@ -17,7 +17,7 @@ class CreateCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setDescription('Create a new migration.')
+            ->setDescription('Create a new migration.');
             ->setDefinition(array(
                 new InputArgument('migration_name', InputArgument::REQUIRED, 'Migration name'),            
         ));             
