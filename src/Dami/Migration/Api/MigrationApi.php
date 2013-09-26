@@ -56,14 +56,19 @@ abstract class MigrationApi
 	/**
 	 * Drop table.
 	 * 
-	 * @param  string  $name    Table name.
-	 * @param  boolean $cascade If delete cascade.
+	 * @param  string name    Table name.
+	 * @param  array  $options Optional options.
 	 * 
 	 * @return void
 	 */
-	public function dropTable($name, $cascade = true)
+	public function dropTable($name, array $options = array())
 	{		
 		$table = new Table($name);			
+
+		$cascade = isset($options['cascade']) ? $options['cascade'] : true;
+		if(isset($options['schema'])) {
+			$table->setSchema($options['schema']);
+		}
 		$manipulation = $this->manipulation; 
 		$this->actions[] =  function () use($manipulation, $table, $cascade) {
      		return $manipulation->dropTable($table, $cascade);     
