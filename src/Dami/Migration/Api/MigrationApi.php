@@ -39,6 +39,13 @@ abstract class MigrationApi
 			? new PrimaryKey($options['primary_key'])
 			: new PrimaryKey();
 
+		if(isset($options['schema'])) {
+			$table->setSchema($options['schema']);
+		}
+
+		if(isset($options['primary_key_auto_increment']) && false === $options['primary_key_auto_increment']) {
+			$primaryKey->disableAutoIncrement();
+		}
 		$manipulation = $this->manipulation;
 		$this->actions[] =  function () use($manipulation, $table, $primaryKey) {
      		return $manipulation->createTable($table, array($primaryKey));     
