@@ -2,115 +2,115 @@
 
 namespace Dami\Migration\Api;
 
-use Dami\Container;
 use Dami\Migration\Api\Table;
 
 use Rentgen\Schema\Manipulation;
 use Rentgen\Database\Constraint\PrimaryKey;
 
 abstract class MigrationApi
-{	
-	private $actions = null;
-	private $manipulation;
+{
+    private $actions = null;
+    private $manipulation;
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param Manipulation $manipulation Manipulation instance.
-	 */
-	public function __construct(Manipulation $manipulation)
-	{						
-		$this->actions = array();
-		$this->manipulation = $manipulation;
-	}
+    /**
+     * Constructor.
+     *
+     * @param Manipulation $manipulation Manipulation instance.
+     */
+    public function __construct(Manipulation $manipulation)
+    {
+        $this->actions = array();
+        $this->manipulation = $manipulation;
+    }
 
-	/**
-	 * Create new table.
-	 * 
-	 * @param  string $name    Table name.
-	 * @param  array  $options Optional options.
-	 * 
-	 * @return Table           Table instance.
-	 */
-	public function createTable($name, array $options = array())
-	{		
-		$table = new Table($name);					
-		$primaryKey = isset($options['primary_key'])
-			? new PrimaryKey($options['primary_key'])
-			: new PrimaryKey();
+    /**
+     * Create new table.
+     *
+     * @param string $name    Table name.
+     * @param array  $options Optional options.
+     *
+     * @return Table Table instance.
+     */
+    public function createTable($name, array $options = array())
+    {
+        $table = new Table($name);
+        $primaryKey = isset($options['primary_key'])
+            ? new PrimaryKey($options['primary_key'])
+            : new PrimaryKey();
 
-		if(isset($options['schema'])) {
-			$table->setSchema($options['schema']);
-		}
+        if (isset($options['schema'])) {
+            $table->setSchema($options['schema']);
+        }
 
-		if(isset($options['primary_key_auto_increment']) && false === $options['primary_key_auto_increment']) {
-			$primaryKey->disableAutoIncrement();
-		}
-		$manipulation = $this->manipulation;
-		$this->actions[] =  function () use($manipulation, $table, $primaryKey) {
-     		return $manipulation->createTable($table, array($primaryKey));     
-     	};
-		return $table;
-	}
+        if (isset($options['primary_key_auto_increment']) && false === $options['primary_key_auto_increment']) {
+            $primaryKey->disableAutoIncrement();
+        }
+        $manipulation = $this->manipulation;
+        $this->actions[] =  function () use ($manipulation, $table, $primaryKey) {
+             return $manipulation->createTable($table, array($primaryKey));
+         };
 
-	/**
-	 * Drop table.
-	 * 
-	 * @param  string name    Table name.
-	 * @param  array  $options Optional options.
-	 * 
-	 * @return void
-	 */
-	public function dropTable($name, array $options = array())
-	{		
-		$table = new Table($name);			
+        return $table;
+    }
 
-		$cascade = isset($options['cascade']) ? $options['cascade'] : true;
-		if(isset($options['schema'])) {
-			$table->setSchema($options['schema']);
-		}
-		$manipulation = $this->manipulation; 
-		$this->actions[] =  function () use($manipulation, $table, $cascade) {
-     		return $manipulation->dropTable($table, $cascade);     
-     	}; 
-	}	
+    /**
+     * Drop table.
+     *
+     * @param  string name    Table name.
+     * @param array $options Optional options.
+     *
+     * @return void
+     */
+    public function dropTable($name, array $options = array())
+    {
+        $table = new Table($name);
 
-	/**
-	 * Add foreign key.
-	 *
-	 * @return ForeignKey ForeignKey instance.
-	 */
-	public function addForeignKey()	
-	{
-		$foreignKey = new ForeignKey(new Table('foo'), new Table('fof'));
-		
-		$manipulation = $this->manipulation; 
-		$this->actions[] =  function () use($manipulation, $foreignKey) {
-    		return $manipulation->addForeignKey($foreignKey);    			
-    	};
-		return $foreignKey;
-	}
+        $cascade = isset($options['cascade']) ? $options['cascade'] : true;
+        if (isset($options['schema'])) {
+            $table->setSchema($options['schema']);
+        }
+        $manipulation = $this->manipulation;
+        $this->actions[] =  function () use ($manipulation, $table, $cascade) {
+             return $manipulation->dropTable($table, $cascade);
+         };
+    }
 
-	/**
-	 * Execute SQL.
-	 * 
-	 * @param  string $sql SQL to execute.
-	 * 
-	 * @return integer
-	 */
-	public function execute($sql)
-	{
-		return $this->manipulation->execute($sql);
-	}
+    /**
+     * Add foreign key.
+     *
+     * @return ForeignKey ForeignKey instance.
+     */
+    public function addForeignKey()
+    {
+        $foreignKey = new ForeignKey(new Table('foo'), new Table('fof'));
 
-	/**
-	 * Get actions to execute.
-	 * 
-	 * @return array Actions to execute.
-	 */
-	public function getActions()
-	{
-		return $this->actions;
-	}
+        $manipulation = $this->manipulation;
+        $this->actions[] =  function () use ($manipulation, $foreignKey) {
+            return $manipulation->addForeignKey($foreignKey);
+        };
+
+        return $foreignKey;
+    }
+
+    /**
+     * Execute SQL.
+     *
+     * @param string $sql SQL to execute.
+     *
+     * @return integer
+     */
+    public function execute($sql)
+    {
+        return $this->manipulation->execute($sql);
+    }
+
+    /**
+     * Get actions to execute.
+     *
+     * @return array Actions to execute.
+     */
+    public function getActions()
+    {
+        return $this->actions;
+    }
 }
-

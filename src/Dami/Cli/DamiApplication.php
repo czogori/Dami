@@ -1,7 +1,7 @@
 <?php
 
 namespace Dami\Cli;
- 
+
 use Symfony\Component\Console\Application;
 use Dami\Cli\Command\CreateCommand,
     Dami\Cli\Command\MigrateCommand,
@@ -10,12 +10,12 @@ use Dami\Cli\Command\CreateCommand,
     Dami\Dami,
     Dami\Migration;
 
-class DamiApplication extends Application 
+class DamiApplication extends Application
 {
-    public function __construct() 
+    public function __construct()
     {
         parent::__construct('Dami - [Da]tabase [mi]grations for PHP', '0.3');
-    
+
         $dami = new Dami();
         $migration = new Migration($dami->getContainer());
 

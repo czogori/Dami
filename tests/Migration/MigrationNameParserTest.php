@@ -10,14 +10,14 @@ use Dami\Migration\MigrationNameParser;
 class MigrationNameParserTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetActionObject()
-    {        
+    {
         $migrationNameParser = new MigrationNameParser();
         $migrationNameParser->setMigrationName('AddTableFoo');
         $this->assertEquals('table', $migrationNameParser->getActionObject());
     }
 
     public function testGetModel()
-    {        
+    {
         $migrationNameParser = new MigrationNameParser();
         $migrationNameParser->setMigrationName('AddTableFoo');
         $this->assertEquals('foo', $migrationNameParser->getModel());

@@ -5,31 +5,31 @@ namespace Dami\Migration;
 use Dami\Helper\StringHelper;
 
 class FilenameParser
-{	
-	private $version;
-	
-	public function __construct($filename)
-	{		
-		$items = explode('_', $filename);		
-		$this->version = $items[0];		
+{
+    private $version;
 
-		$this->name = ltrim($filename, $this->version . '_');
-		$this->name = rtrim($this->name, '.php');
-		$this->className = StringHelper::camelize($this->name) . 'Migration';
-	}
+    public function __construct($filename)
+    {
+        $items = explode('_', $filename);
+        $this->version = $items[0];
 
-	public function getVersion()
-	{		
-		return $this->version;
-	}
+        $this->name = ltrim($filename, $this->version . '_');
+        $this->name = rtrim($this->name, '.php');
+        $this->className = StringHelper::camelize($this->name) . 'Migration';
+    }
 
-	public function getMigrationName()
-	{
-		return $this->name;
-	}
+    public function getVersion()
+    {
+        return $this->version;
+    }
 
-	public function getMigrationClassName()
-	{
-		return $this->className;
-	}
+    public function getMigrationName()
+    {
+        return $this->name;
+    }
+
+    public function getMigrationClassName()
+    {
+        return $this->className;
+    }
 }

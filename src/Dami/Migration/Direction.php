@@ -4,6 +4,6 @@ namespace Dami\Migration;
 
 abstract class Direction
 {
-	const UP 	= 'up';
-	const DOWN 	= 'down';	
+    const UP 	= 'up';
+    const DOWN 	= 'down';
 }

@@ -6,23 +6,24 @@ use Dami\Helper\StringHelper;
 
 class FileNameBuilder
 {
-	private $migrationName;
-	
-	public function __construct($migrationName = '')
-	{
-		if('' === trim($migrationName)) {
-			throw new \InvalidArgumentException('Migration name is required.');			
-		}
-		$this->migrationName = $migrationName;	
-	}
+    private $migrationName;
 
-	public function build($timestamp = null)
-	{
-		if(null === $timestamp) {
-			$timestamp = new \DateTime();
-			$timestamp = $timestamp->format('YmdHis');
-		}
+    public function __construct($migrationName = '')
+    {
+        if ('' === trim($migrationName)) {
+            throw new \InvalidArgumentException('Migration name is required.');
+        }
+        $this->migrationName = $migrationName;
+    }
+
+    public function build($timestamp = null)
+    {
+        if (null === $timestamp) {
+            $timestamp = new \DateTime();
+            $timestamp = $timestamp->format('YmdHis');
+        }
         $fileName = sprintf('%s_%s.php', $timestamp, StringHelper::underscore($this->migrationName));
+
         return $fileName;
-	}
+    }
 }

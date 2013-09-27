@@ -10,7 +10,7 @@ use Dami\Migration\MigrationNameParser;
 class TemplateInitializationTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetInitUp()
-    {        
+    {
         $migrationNameParser = $this->getMock('Dami\Migration\MigrationNameParser');
         $migrationNameParser
             ->expects($this->any())
@@ -25,7 +25,7 @@ class TemplateInitializationTest extends \PHPUnit_Framework_TestCase
     }
 
     public function testGetInitDown()
-    {        
+    {
         $migrationNameParser = $this->getMock('Dami\Migration\MigrationNameParser');
         $migrationNameParser
             ->expects($this->any())

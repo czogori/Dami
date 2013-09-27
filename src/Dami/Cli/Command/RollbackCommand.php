@@ -1,7 +1,7 @@
 <?php
 
 namespace Dami\Cli\Command;
- 
+
 use Symfony\Component\Console\Input\InputInterface,
     Symfony\Component\Console\Input\InputArgument,
     Symfony\Component\Console\Output\OutputInterface;
@@ -16,8 +16,8 @@ class RollbackCommand extends MigrationAwareCommand
             ->setDescription('Rollback migrations.')
             ->addArgument('to-version', InputArgument::OPTIONAL, 'Rollback to specific version of migrations');
     }
- 
-    protected function execute(InputInterface $input, OutputInterface $output) 
+
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $version = $input->getArgument('to-version');
 

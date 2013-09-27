@@ -7,7 +7,7 @@ environments:
         host:     localhost
         database: dami
         username: postgres
-        password: 
+        password:
         port:     5432
 
     development:
@@ -15,7 +15,7 @@ environments:
         host:     localhost
         database: dami
         username: postgres
-        password: 
+        password:
         port:     5432
 
     test:
@@ -23,5 +23,5 @@ environments:
         host:     localhost
         database: dami
         username: postgres
-        password: 
-        port:     5432    
+        password:
+        port:     5432

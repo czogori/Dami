@@ -1,7 +1,7 @@
 <?php
 
 namespace Dami\Cli\Command;
- 
+
 use Symfony\Component\Console\Input\InputArgument,
     Symfony\Component\Console\Input\InputOption,
     Symfony\Component\Console,
@@ -11,20 +11,20 @@ use Symfony\Component\Console\Input\InputArgument,
 use Dami\Migration\MigrationFiles;
 
 class StatusCommand extends ContainerAwareCommand
-{    
+{
     protected function configure()
     {
-        $this            
-            ->setDescription('Migrations status.');        
+        $this
+            ->setDescription('Migrations status.');
     }
- 
+
     protected function execute(InputInterface $input, OutputInterface $output)
-    {        
+    {
         $migrationFiles = $this->getContainer()->get('migration_files');
-        
+
         $rows = array();
         foreach ($migrationFiles->getFiles() as $migrationFile) {
-            $status = $migrationFile->isMigrated ? 'Migrated' : 'Not migrated';            
+            $status = $migrationFile->isMigrated ? 'Migrated' : 'Not migrated';
             $rows[] = array($status, $migrationFile->version, $migrationFile->name);
         }
 
