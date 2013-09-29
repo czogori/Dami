@@ -12,7 +12,7 @@ class FileNameParserTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $fileName = '20130624094755_add_table_foo.php';
-        $this->fileNameParser = new FileNameParser($fileName);                
+        $this->fileNameParser = new FileNameParser($fileName);
     }
 
     /**
@@ -20,7 +20,7 @@ class FileNameParserTest extends \PHPUnit_Framework_TestCase
      */
     public function test_create_instance_without_argument()
     {
-        $fileNameParser = new FileNameParser();                   
+        $fileNameParser = new FileNameParser();
     }
 
     public function test_getVersion()
@@ -34,7 +34,7 @@ class FileNameParserTest extends \PHPUnit_Framework_TestCase
     }
 
     public function test_getMigrationClassName()
-    {            
+    {
         $this->assertEquals('AddTableFooMigration', $this->fileNameParser->getMigrationClassName());
     }
 }
