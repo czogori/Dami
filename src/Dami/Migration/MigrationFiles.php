@@ -19,7 +19,7 @@ class MigrationFiles
     {
         $files = array();
         foreach ($this->getMigrationFiles() as $file) {
-            $filenameParser = new FilenameParser($file->getFileName());
+            $filenameParser = new FileNameParser($file->getFileName());
             $isMigrated = in_array($filenameParser->getVersion(), $this->schemaTable->getVersions());
 
             $migrationFile = new MigrationFile();
