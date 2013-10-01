@@ -7,7 +7,7 @@ use Rentgen\Database\Table as RentgenTable;
 use Rentgen\Schema\Info;
 
 class ForeignKey extends RentgenForeignKey
-{
+{   
     private $info;
 
     public function __construct(Info $info)

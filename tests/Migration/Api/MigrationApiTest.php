@@ -18,8 +18,8 @@ class MigrationApiTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('createTable')
             ->will($this->returnValue('Dami\Migration\Api\Table'));
-
-        $this->api = new FooApi($manipulation);
+        $info = $this->getMock('Rentgen\Schema\Info', null, array(new ContainerBuilder()));
+        $this->api = new FooApi($manipulation, $info);
     }
     public function testCreateTable()
     {

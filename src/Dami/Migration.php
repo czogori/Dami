@@ -32,6 +32,7 @@ class Migration
         $schemaTable = $this->container->get('schema_table');
         $migrationFiles = $this->container->get('migration_files');
         $schemaManipulation = $this->container->get('schema.manipulation');
+        $schemaInfo = $this->container->get('schema.info');
 
         if ($direction === Direction::UP) {
             $files = $migrationFiles->getFiles();
@@ -52,7 +53,7 @@ class Migration
             require_once $file->path;
 
             $migrationClass = $file->className;
-            $definition = new $migrationClass($schemaManipulation);
+            $definition = new $migrationClass($schemaManipulation, $schemaInfo);
 
             if ($direction == Direction::UP) {
                 $definition->up();

@@ -5,22 +5,25 @@ namespace Dami\Migration\Api;
 use Dami\Migration\Api\Table;
 
 use Rentgen\Schema\Manipulation;
+use Rentgen\Schema\Info;
 use Rentgen\Database\Constraint\PrimaryKey;
 
 abstract class MigrationApi
 {
     private $actions = null;
     private $manipulation;
+    private $info;
 
     /**
      * Constructor.
      *
      * @param Manipulation $manipulation Manipulation instance.
      */
-    public function __construct(Manipulation $manipulation)
+    public function __construct(Manipulation $manipulation, Info $info)
     {
         $this->actions = array();
         $this->manipulation = $manipulation;
+        $this->info = $info;
     }
 
     /**
@@ -82,7 +85,7 @@ abstract class MigrationApi
      */
     public function addForeignKey()
     {
-        $foreignKey = new ForeignKey(new Table('foo'), new Table('fof'));
+        $foreignKey = new ForeignKey($this->info);
 
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $foreignKey) {
