@@ -24,7 +24,7 @@ class Migration
 
     public function rollback($version = null)
     {
-        $this->execute(Direction::DOWN, $version);
+        return $this->execute(Direction::DOWN, $version);
     }
 
     private function execute($direction = Direction::UP, $version = null)
