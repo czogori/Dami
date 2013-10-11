@@ -66,7 +66,6 @@ class Migration
                 }
                 $action = call_user_func_array($action, array());
                 if ($action instanceof MigrationApi) {
-                    //echo get_class($action);
                     print_r($action);
                     $action->execute();
                 }
