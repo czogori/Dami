@@ -14,10 +14,14 @@ class DamiExtension implements ExtensionInterface
     public function load(array $configs, ContainerBuilder $container)
     {
         $fileLocator = new FileLocator(getcwd());
-        $configFile = $fileLocator->locate('config.yml');
-        $config = Yaml::parse($configFile);
-
-        $migrationsDirectory = str_replace('@@DAMI_DIRECTORY@@', getcwd(), $config['migrations']);
+        try {
+            $configFile = $fileLocator->locate('config.yml');            
+            $config = Yaml::parse($configFile);                
+            $migrationsDirectory = str_replace('@@DAMI_DIRECTORY@@', getcwd(), $config['migrations']);            
+        } catch(\InvalidArgumentException $e) {
+            // set default directory as current directory
+            $migrationsDirectory = getcwd();
+        }
 
         $container->setParameter('migrations_directory', $migrationsDirectory);
         $this->defineParameters($container);
