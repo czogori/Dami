@@ -7,8 +7,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Yaml\Yaml;
 
-use Rentgen\RentgenExtension;
-use Rentgen\ListenerPass;
+use Rentgen\DependencyInjection\RentgenExtension;
+use Rentgen\DependencyInjection\Compiler\ListenerPass;
 
 class Dami
 {
