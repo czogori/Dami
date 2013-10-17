@@ -7,7 +7,6 @@ use Dami\Cli\Command\CreateCommand,
     Dami\Cli\Command\MigrateCommand,
     Dami\Cli\Command\RollbackCommand,
     Dami\Cli\Command\StatusCommand,
-    Dami\Dami,
     Dami\Migration;
 
 class DamiApplication extends Application
