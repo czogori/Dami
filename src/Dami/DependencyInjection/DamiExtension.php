@@ -19,7 +19,11 @@ class DamiExtension implements ExtensionInterface
             $config = Yaml::parse($configFile);                
             $migrationsDirectory = str_replace('@@DAMI_DIRECTORY@@', getcwd(), $config['migrations']);            
         } catch(\InvalidArgumentException $e) {
-            $migrationsDirectory = '';
+            foreach ($configs as $config) {                
+                if(isset($config['migrations_directory'])) {
+                    $migrationsDirectory = $config['migrations_directory'];
+                }
+            }
         }        
         $this->defineParameters($container);
 
