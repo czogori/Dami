@@ -36,7 +36,7 @@ class CreateCommand extends ContainerAwareCommand
         $templateRenderer = $this->getContainer()->get('template_renderer');
         $migrationDirectory = $this->getContainer()->getparameter('migrations_directory');
 
-        $path = $migrationDirectory . DIRECTORY_SEPARATOR . $fileName;
+        $path = $migrationDirectory . '/' . $fileName;
         $fileSystem->dumpFile($path, $templateRenderer->render($migrationName));
     }
 }
