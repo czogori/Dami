@@ -7,6 +7,7 @@ use Dami\Migration\Api\Table;
 use Rentgen\Schema\Manipulation;
 use Rentgen\Schema\Info;
 use Rentgen\Database\Constraint\PrimaryKey;
+use Rentgen\Database\Schema;
 
 abstract class MigrationApi
 {
@@ -35,24 +36,21 @@ abstract class MigrationApi
      * @return Table Table instance.
      */
     public function createTable($name, array $options = array())
-    {
-        $table = new Table($name);
+    {        
+        $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
         $primaryKey = isset($options['primary_key'])
             ? new PrimaryKey($options['primary_key'])
             : new PrimaryKey();
-
-        if (isset($options['schema'])) {
-            $table->setSchema($options['schema']);
-        }
-
         if (isset($options['primary_key_auto_increment']) && false === $options['primary_key_auto_increment']) {
             $primaryKey->disableAutoIncrement();
-        }
-        $manipulation = $this->manipulation;
-        $this->actions[] =  function () use ($manipulation, $table, $primaryKey) {
-             return $manipulation->createTable($table, array($primaryKey));
-         };
+        }        
+        $table = new Table($name, $schema);
+        $table->addConstraint($primaryKey);
 
+        $manipulation = $this->manipulation;
+        $this->actions[] =  function () use ($manipulation, $table) {
+             return $manipulation->createTable($table);
+        };
         return $table;
     }
 
@@ -66,12 +64,10 @@ abstract class MigrationApi
      */
     public function dropTable($name, array $options = array())
     {
-        $table = new Table($name);
+        $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
+        $table = new Table($name, $schema);
 
-        $cascade = isset($options['cascade']) ? $options['cascade'] : true;
-        if (isset($options['schema'])) {
-            $table->setSchema($options['schema']);
-        }
+        $cascade = isset($options['cascade']) ? $options['cascade'] : true;        
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $table, $cascade) {
              return $manipulation->dropTable($table, $cascade);
