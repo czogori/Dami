@@ -12,53 +12,26 @@ use Rentgen\Database\Column\TextColumn;
 
 class Table extends RentgenTable
 {
-    public function addStringColumn($name, array $options = array())
+    public function __call($method, $params) 
     {
-        $this->columns[] = new StringColumn($name, $options);
-
-        return $this;
-    }
-
-    public function addIntegerColumn($name, array $options = array())
-    {
-        $this->columns[] = new IntegerColumn($name, $options);
-
-        return $this;
-    }
-
-    public function addTextColumn($name, array $options = array())
-    {
-        $this->columns[] = new TextColumn($name, $options);
-
-        return $this;
-    }
-
-    public function addBooleanColumn($name, array $options = array())
-    {
-        $this->columns[] = new BooleanColumn($name, $options);
-
-        return $this;
-    }
-
-    public function addDateTimeColumn($name, array $options = array())
-    {
-        $this->columns[] = new DatetimeColumn($name, $options);
-
-        return $this;
-    }
-
-    public function addDAteColumn($name, array $options = array())
-    {
-        $this->columns[] = new DateColumn($name, $options);
-
-        return $this;
-    }
-
-    public function addTimestamps()
-    {
-        $this->columns[] = new DateTimeColumn('created_at', array('not_null' => true));
-        $this->columns[] = new DateTimeColumn('updated_at', array('not_null' => true));
-
-        return $this;
+        switch($method) {
+            case 'addStringColumn':
+            case 'addTextColumn':
+            case 'addIntegerColumn':
+            case 'addBooleanColumn':
+            case 'addDateTimeColumn':
+            case 'addDateColumn':
+                $namespace = 'Rentgen\\Database\\Column\\';
+                $class = $namespace . ltrim($method, 'add'); 
+                $options = isset($params[1]) ? $params[1] : array();                
+                $this->columns[] = new $class($params[0], $options);
+                return $this;
+            case 'addTimestamps':
+                $this->columns[] = new DateTimeColumn('created_at', array('not_null' => true));
+                $this->columns[] = new DateTimeColumn('updated_at', array('not_null' => true));
+                return $this;
+            default:
+                throw new Exception(sprintf("Unsupported method " . $method));                
+        }
     }
 }
