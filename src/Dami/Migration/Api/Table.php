@@ -3,12 +3,6 @@
 namespace Dami\Migration\Api;
 
 use Rentgen\Database\Table as RentgenTable;
-use Rentgen\Database\Column\StringColumn;
-use Rentgen\Database\Column\IntegerColumn;
-use Rentgen\Database\Column\DateColumn;
-use Rentgen\Database\Column\DateTimeColumn;
-use Rentgen\Database\Column\BooleanColumn;
-use Rentgen\Database\Column\TextColumn;
 
 class Table extends RentgenTable
 {
