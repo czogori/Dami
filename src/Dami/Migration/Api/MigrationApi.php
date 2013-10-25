@@ -74,6 +74,12 @@ abstract class MigrationApi
          };
     }
 
+    public function alterTable($name, array $options = array())
+    {
+        $schema = isset($options['schema']) ? new Schema($options['schema']) : null;        
+        return new AlterationTableApi(new Table($name, $schema), $this->manipulation, $this->actions);        
+    }
+
     /**
      * Add foreign key.
      *
