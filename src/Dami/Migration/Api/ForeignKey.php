@@ -4,6 +4,7 @@ namespace Dami\Migration\Api;
 
 use Rentgen\Database\Constraint\ForeignKey as RentgenForeignKey;
 use Rentgen\Database\Table as RentgenTable;
+use Rentgen\Database\Schema;
 use Rentgen\Schema\Info;
 
 class ForeignKey extends RentgenForeignKey
@@ -17,11 +18,9 @@ class ForeignKey extends RentgenForeignKey
 
     public function foreignKey($tableName, $columnNames, array $options = array())
     {
-        $table = new RentgenTable($tableName);
+        $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
+        $table = new RentgenTable($tableName, $schema);
 
-        if (isset($options['schema'])) {
-            $table->setSchema($options['schema']);
-        }
         $this->setTable($table);
         $this->setColumns($columnNames);
 
@@ -30,14 +29,12 @@ class ForeignKey extends RentgenForeignKey
 
     public function reference($tableName, $columnNames, array $options = array())
     {
-        $table = new RentgenTable($tableName);
+        $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
+        $table = new RentgenTable($tableName, $schema);
 
-        if (isset($options['schema'])) {
-            $table->setSchema($options['schema']);
-        }
         $this->setReferencedTable($table);
         $this->setReferencedColumns($columnNames);
 
         return $this;
-    }
+    }    
 }
