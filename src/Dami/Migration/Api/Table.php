@@ -3,9 +3,11 @@
 namespace Dami\Migration\Api;
 
 use Rentgen\Database\Table as RentgenTable;
+use Rentgen\Database\Column\DateTimeColumn;
 
 class Table extends RentgenTable
 {
+    private $alterTable = false;
     public function __call($method, $params) 
     {
         switch($method) {
@@ -27,5 +29,20 @@ class Table extends RentgenTable
             default:
                 throw new Exception(sprintf("Unsupported method " . $method));                
         }
+    }
+
+    public function setActions($actions)
+    {
+        $this->actions = $actions;
+    }
+
+    public function setManipulation(Manipulation $manipulation)
+    {
+        $this->manipulation = $manipulation;
+    }
+
+    public function alter()
+    {
+        $this->alter = true;
     }
 }
