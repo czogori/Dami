@@ -23,7 +23,7 @@ class MigrationApiTest extends \PHPUnit_Framework_TestCase
     }
     public function testCreateTable()
     {
-        $this->assertInstanceOf('Dami\Migration\Api\Table', $this->api->createTable('foo'));
+        $this->assertInstanceOf('Dami\Migration\Api\CreationTableApi', $this->api->createTable('foo'));
         $this->assertCount(1, $this->api->getActions());
     }
 
