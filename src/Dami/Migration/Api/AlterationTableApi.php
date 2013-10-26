@@ -3,6 +3,7 @@
 namespace Dami\Migration\Api;
 
 use Rentgen\Database\Constraint\ForeignKey;
+use Rentgen\Database\Constraint\Unique;
 use Rentgen\Database\Table;
 use Rentgen\Database\Schema;
 use Rentgen\Schema\Manipulation;
@@ -69,6 +70,28 @@ class AlterationTableApi
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $foreignKey) {
              return $manipulation->dropConstraint($foreignKey);
+        };
+        return $this;
+    }
+
+    public function addUnique($columns)
+    {        
+        $unique = new Unique($this->table, $columns);        
+        
+        $manipulation = $this->manipulation;
+        $this->actions[] =  function () use ($manipulation, $unique) {
+             return $manipulation->addConstraint($unique);
+        };
+        return $this;
+    }
+
+    public function dropUnique($columns)
+    {
+        $unique = new Unique($this->table, $columns); 
+        
+        $manipulation = $this->manipulation;
+        $this->actions[] =  function () use ($manipulation, $unique) {
+             return $manipulation->dropConstraint($unique);
         };
         return $this;
     }
