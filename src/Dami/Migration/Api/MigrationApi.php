@@ -2,12 +2,13 @@
 
 namespace Dami\Migration\Api;
 
-use Dami\Migration\Api\Table;
-
-use Rentgen\Schema\Manipulation;
-use Rentgen\Schema\Info;
 use Rentgen\Database\Constraint\PrimaryKey;
 use Rentgen\Database\Schema;
+use Rentgen\Database\Table;
+use Rentgen\Schema\Manipulation;
+use Rentgen\Schema\Info;
+
+use Dami\Migration\Api\CreationTableApi;
 
 abstract class MigrationApi
 {
@@ -30,10 +31,10 @@ abstract class MigrationApi
     /**
      * Create new table.
      *
-     * @param string $name    Table name.
+     * @param string $name    CreationTableApi name.
      * @param array  $options Optional options.
      *
-     * @return Table Table instance.
+     * @return CreationTableApi CreationTableApi instance.
      */
     public function createTable($name, array $options = array())
     {        
@@ -44,7 +45,7 @@ abstract class MigrationApi
         if (isset($options['primary_key_auto_increment']) && false === $options['primary_key_auto_increment']) {
             $primaryKey->disableAutoIncrement();
         }        
-        $table = new Table($name, $schema);
+        $table = new CreationTableApi($name, $schema);
         $table->addConstraint($primaryKey);
 
         $manipulation = $this->manipulation;

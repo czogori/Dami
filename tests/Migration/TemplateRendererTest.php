@@ -17,7 +17,6 @@ class TemplateRendererTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('getInitUp')
             ->will($this->returnValue('fff'));
-        $templateRenderer = new TemplateRenderer($templateInitialization);
-        echo $templateRenderer->render('Foo');
+        $templateRenderer = new TemplateRenderer($templateInitialization);        
     }
 }

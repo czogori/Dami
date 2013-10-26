@@ -88,12 +88,13 @@ class SchemaTable
         if ($this->info->isTableExists($table)) {
             return;
         }
+        $primaryKey = new PrimaryKey(array('version'));        
+        $primaryKey->disableAutoIncrement();
+
+        $table->addConstraint($primaryKey);
         $table
             ->addColumn(new BigIntegerColumn('version'))
             ->addColumn(new DateTimeColumn('created_at', array('nullable' => false, 'default' => 'now()')));
-
-        $primaryKey = new PrimaryKey(array('version'));
-        $primaryKey->setTable($table);
-        $this->manipulation->createTable($table, array($primaryKey));
+        $this->manipulation->createTable($table);
     }
 }
