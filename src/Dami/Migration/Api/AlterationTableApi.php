@@ -2,12 +2,13 @@
 
 namespace Dami\Migration\Api;
 
+use Rentgen\Database\Column\StringColumn;
 use Rentgen\Database\Constraint\ForeignKey;
 use Rentgen\Database\Constraint\Unique;
-use Rentgen\Database\Table;
+use Rentgen\Database\Index;
 use Rentgen\Database\Schema;
+use Rentgen\Database\Table;
 use Rentgen\Schema\Manipulation;
-use Rentgen\Database\Column\StringColumn;
 
 class AlterationTableApi
 {    
@@ -92,6 +93,28 @@ class AlterationTableApi
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $unique) {
              return $manipulation->dropConstraint($unique);
+        };
+        return $this;
+    }
+
+    public function addIndex($columns)
+    {        
+        $index = new Index($columns, $this->table);        
+        
+        $manipulation = $this->manipulation;
+        $this->actions[] =  function () use ($manipulation, $index) {
+             return $manipulation->createIndex($index);
+        };
+        return $this;
+    }
+
+    public function dropIndex($columns)
+    {
+        $index = new Index($columns, $this->table); 
+        
+        $manipulation = $this->manipulation;
+        $this->actions[] =  function () use ($manipulation, $index) {
+             return $manipulation->dropIndex($index);
         };
         return $this;
     }
