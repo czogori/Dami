@@ -77,7 +77,7 @@ class AlterationTableApi
 
     public function addUnique($columns)
     {        
-        $unique = new Unique($this->table, $columns);        
+        $unique = new Unique($columns, $this->table);        
         
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $unique) {
@@ -88,7 +88,7 @@ class AlterationTableApi
 
     public function dropUnique($columns)
     {
-        $unique = new Unique($this->table, $columns); 
+        $unique = new Unique($columns, $this->table); 
         
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $unique) {
