@@ -19,7 +19,14 @@ class MigrationNameParserTest extends \PHPUnit_Framework_TestCase
     public function testGetModel()
     {
         $migrationNameParser = new MigrationNameParser();
-        $migrationNameParser->setMigrationName('AddTableFoo');
-        $this->assertEquals('foo', $migrationNameParser->getModel());
+        
+        $migrationsNames = array(
+            'AddTableFoo'    => 'foo',
+            'AddTableFooBar' => 'foo_bar',
+        );
+        foreach ($migrationsNames as $migrationsName => $expect) {
+            $migrationNameParser->setMigrationName($migrationsName);
+            $this->assertEquals($expect, $migrationNameParser->getModel());            
+        }
     }
 }

@@ -17,12 +17,12 @@ class MigrationNameParser
     public function setMigrationName($migrationName)
     {
         $this->migrationName = $migrationName;
-
-        $items = explode('_', StringHelper::underscore($migrationName));
+        $migrationNameAsUnderscoreSrtring = StringHelper::underscore($migrationName);
+        $items = explode('_', $migrationNameAsUnderscoreSrtring);
         if (count($items) >= 3) {
             $this->action = $items[0];
             $this->actionObject = $items[1];
-            $this->model = $items[2];
+            $this->model = str_replace($items[0] . '_' . $items[1] . '_', '', $migrationNameAsUnderscoreSrtring);
         }
     }
 
@@ -40,5 +40,4 @@ class MigrationNameParser
     {
         return $this->model;
     }
-
 }
