@@ -24,8 +24,9 @@ class DamiExtension implements ExtensionInterface
                     $migrationsDirectory = $config['migrations_directory'];
                 }
             }
-        }        
+        }
         $this->defineParameters($container);
+        $container->setParameter('migrations_directory', $migrationsDirectory);
 
         $definition = new Definition($container->getParameter('service_container.class'));
         $container->setDefinition('service_container', $definition);
