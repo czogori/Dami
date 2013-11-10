@@ -37,14 +37,14 @@ abstract class MigrationApi
      * @return CreationTableApi CreationTableApi instance.
      */
     public function createTable($name, array $options = array())
-    {        
+    {
         $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
         $primaryKey = isset($options['primary_key'])
             ? new PrimaryKey($options['primary_key'])
             : new PrimaryKey();
         if (isset($options['primary_key_auto_increment']) && false === $options['primary_key_auto_increment']) {
             $primaryKey->disableAutoIncrement();
-        }        
+        }
         $table = new CreationTableApi($name, $schema);
         $table->addConstraint($primaryKey);
 
@@ -52,6 +52,7 @@ abstract class MigrationApi
         $this->actions[] =  function () use ($manipulation, $table) {
              return $manipulation->createTable($table);
         };
+
         return $table;
     }
 
@@ -68,7 +69,7 @@ abstract class MigrationApi
         $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
         $table = new Table($name, $schema);
 
-        $cascade = isset($options['cascade']) ? $options['cascade'] : true;        
+        $cascade = isset($options['cascade']) ? $options['cascade'] : true;
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $table, $cascade) {
              return $manipulation->dropTable($table, $cascade);
@@ -77,8 +78,9 @@ abstract class MigrationApi
 
     public function alterTable($name, array $options = array())
     {
-        $schema = isset($options['schema']) ? new Schema($options['schema']) : null;        
-        return new AlterationTableApi(new Table($name, $schema), $this->manipulation, $this->actions);        
+        $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
+
+        return new AlterationTableApi(new Table($name, $schema), $this->manipulation, $this->actions);
     }
 
     /**

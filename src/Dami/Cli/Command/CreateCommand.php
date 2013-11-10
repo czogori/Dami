@@ -20,6 +20,7 @@ class CreateCommand extends ContainerAwareCommand
             ->setDescription('Create a new migration.')
             ->setDefinition(array(
                 new InputArgument('migration_name', InputArgument::REQUIRED, 'Migration name'),
+                new InputArgument('bundle_name', InputArgument::REQUIRED, 'Bundle name'),
         ));
     }
 
@@ -35,7 +36,7 @@ class CreateCommand extends ContainerAwareCommand
 
         $templateRenderer = $this->getContainer()->get('template_renderer');
         $migrationDirectory = $this->getContainer()->getparameter('migrations_directory');
-
+echo $path;
         $path = $migrationDirectory . '/' . $fileName;
         $fileSystem->dumpFile($path, $templateRenderer->render($migrationName));
     }

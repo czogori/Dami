@@ -15,12 +15,12 @@ class DamiExtension implements ExtensionInterface
     {
         $fileLocator = new FileLocator(getcwd());
         try {
-            $configFile = $fileLocator->locate('config.yml');            
-            $config = Yaml::parse($configFile);                
-            $migrationsDirectory = str_replace('@@DAMI_DIRECTORY@@', getcwd(), $config['migrations']);            
-        } catch(\InvalidArgumentException $e) {
-            foreach ($configs as $config) {                
-                if(isset($config['migrations_directory'])) {
+            $configFile = $fileLocator->locate('config.yml');
+            $config = Yaml::parse($configFile);
+            $migrationsDirectory = str_replace('@@DAMI_DIRECTORY@@', getcwd(), $config['migrations']);
+        } catch (\InvalidArgumentException $e) {
+            foreach ($configs as $config) {
+                if (isset($config['migrations_directory'])) {
                     $migrationsDirectory = $config['migrations_directory'];
                 }
             }

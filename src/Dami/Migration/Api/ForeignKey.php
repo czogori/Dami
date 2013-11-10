@@ -8,7 +8,7 @@ use Rentgen\Database\Schema;
 use Rentgen\Schema\Info;
 
 class ForeignKey extends RentgenForeignKey
-{   
+{
     private $info;
 
     public function __construct(Info $info)
@@ -36,5 +36,5 @@ class ForeignKey extends RentgenForeignKey
         $this->setReferencedColumns($columnNames);
 
         return $this;
-    }    
+    }
 }

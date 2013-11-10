@@ -11,7 +11,7 @@ use Rentgen\Database\Table;
 use Rentgen\Schema\Manipulation;
 
 class AlterationTableApi
-{    
+{
     private $alterTable = false;
 
     public function __construct(Table $table, Manipulation $manipulation, &$actions)
@@ -29,7 +29,8 @@ class AlterationTableApi
         $column->setTable($this->table);
         $this->actions[] =  function () use ($manipulation, $column) {
              return $manipulation->addColumn($column);
-        };        
+        };
+
         return $this;
     }
 
@@ -42,80 +43,87 @@ class AlterationTableApi
         $this->actions[] =  function () use ($manipulation, $column) {
              return $manipulation->dropColumn($column);
         };
+
         return $this;
     }
 
     public function addForeignKey($referenceTable, $referenceColumns, array $options = array())
     {
-        $schema = isset($options['schema']) ? new Schema($options['schema']) : null;     
+        $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
 
-        $foreignKey = new ForeignKey($this->table, new Table($referenceTable, $schema));        
-        $foreignKey->setColumns($referenceColumns);        
+        $foreignKey = new ForeignKey($this->table, new Table($referenceTable, $schema));
+        $foreignKey->setColumns($referenceColumns);
         $foreignKey->setReferencedColumns($referenceColumns);
-        
+
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $foreignKey) {
              return $manipulation->addConstraint($foreignKey);
         };
+
         return $this;
     }
 
     public function dropForeignKey($referenceTable, $referenceColumns, array $options = array())
     {
-        $schema = isset($options['schema']) ? new Schema($options['schema']) : null;     
+        $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
 
-        $foreignKey = new ForeignKey($this->table, new Table($referenceTable, $schema));        
-        $foreignKey->setColumns($referenceColumns);        
+        $foreignKey = new ForeignKey($this->table, new Table($referenceTable, $schema));
+        $foreignKey->setColumns($referenceColumns);
         $foreignKey->setReferencedColumns($referenceColumns);
-        
+
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $foreignKey) {
              return $manipulation->dropConstraint($foreignKey);
         };
+
         return $this;
     }
 
     public function addUnique($columns)
-    {        
-        $unique = new Unique($columns, $this->table);        
-        
+    {
+        $unique = new Unique($columns, $this->table);
+
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $unique) {
              return $manipulation->addConstraint($unique);
         };
+
         return $this;
     }
 
     public function dropUnique($columns)
     {
-        $unique = new Unique($columns, $this->table); 
-        
+        $unique = new Unique($columns, $this->table);
+
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $unique) {
              return $manipulation->dropConstraint($unique);
         };
+
         return $this;
     }
 
     public function addIndex($columns)
-    {        
-        $index = new Index($columns, $this->table);        
-        
+    {
+        $index = new Index($columns, $this->table);
+
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $index) {
              return $manipulation->createIndex($index);
         };
+
         return $this;
     }
 
     public function dropIndex($columns)
     {
-        $index = new Index($columns, $this->table); 
-        
+        $index = new Index($columns, $this->table);
+
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $index) {
              return $manipulation->dropIndex($index);
         };
+
         return $this;
     }
 }

@@ -33,6 +33,6 @@ class RollbackCommand extends MigrationAwareCommand
         } else {
             $output->writeln(sprintf('<comment>Nothing migrations detected to rollback.</comment>'));
         }
-        
+
     }
 }

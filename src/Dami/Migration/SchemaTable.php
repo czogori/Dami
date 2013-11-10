@@ -88,7 +88,7 @@ class SchemaTable
         if ($this->info->isTableExists($table)) {
             return;
         }
-        $primaryKey = new PrimaryKey(array('version'));        
+        $primaryKey = new PrimaryKey(array('version'));
         $primaryKey->disableAutoIncrement();
 
         $table->addConstraint($primaryKey);
