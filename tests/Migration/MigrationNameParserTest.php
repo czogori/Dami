@@ -29,4 +29,63 @@ class MigrationNameParserTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($expect, $migrationNameParser->getModel());
         }
     }
+
+    public function testGettingValidAction()
+    {
+        $migrationNameParser = new MigrationNameParser();
+
+        $migrationsNames = array(
+            'CreateTableFoo'              => 'create',
+            'AddColumnFooToTableBar'      => 'add',
+            'DropTableFoo'                => 'drop',
+            'RemoveColumnFooFromTableBar' => 'remove',
+        );
+        foreach ($migrationsNames as $migrationsName => $expect) {
+            $migrationNameParser->setMigrationName($migrationsName);
+            $this->assertEquals($expect, $migrationNameParser->getAction());
+        }
+    }
+
+    public function testGettingNotValidAction()
+    {
+        $migrationNameParser = new MigrationNameParser();
+
+        $migrationsNames = array(
+            'FixTableFoo',
+            'DeleteTableFoo',
+        );
+        foreach ($migrationsNames as $migrationsName) {
+            $migrationNameParser->setMigrationName($migrationsName);
+            $this->assertNull($migrationNameParser->getAction());
+        }
+    }
+
+    public function testGettingValidActionObject()
+    {
+        $migrationNameParser = new MigrationNameParser();
+
+        $migrationsNames = array(
+            'CreateTableFoo'              => 'table',
+            'AddColumnFooToTableBar'      => 'column',            
+            'RemoveIndexFooFromTableBar'  => 'index',
+        );
+        foreach ($migrationsNames as $migrationsName => $expect) {
+            $migrationNameParser->setMigrationName($migrationsName);
+            $this->assertEquals($expect, $migrationNameParser->getActionObject());
+        }
+    }
+
+    public function testGettingNotValidActionObject()
+    {
+        $migrationNameParser = new MigrationNameParser();
+
+        $migrationsNames = array(
+            'CreateTypeFoo',
+            'AddConstraintFooToTableBar',                        
+        );
+        foreach ($migrationsNames as $migrationsName) {
+            $migrationNameParser->setMigrationName($migrationsName);
+            $this->assertNull($migrationNameParser->getActionObject());            
+        }
+    }
 }
