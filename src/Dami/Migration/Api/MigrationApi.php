@@ -39,13 +39,14 @@ abstract class MigrationApi
     public function createTable($name, array $options = array())
     {
         $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
+        $table = new CreationTableApi($name, $schema);
+
         $primaryKey = isset($options['primary_key'])
-            ? new PrimaryKey($options['primary_key'])
-            : new PrimaryKey();
+            ? new PrimaryKey($options['primary_key'], $table)
+            : new PrimaryKey(array(), $table);
         if (isset($options['primary_key_auto_increment']) && false === $options['primary_key_auto_increment']) {
             $primaryKey->disableAutoIncrement();
         }
-        $table = new CreationTableApi($name, $schema);
         $table->addConstraint($primaryKey);
 
         $manipulation = $this->manipulation;
