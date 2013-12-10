@@ -13,16 +13,18 @@ class DamiApplication extends Application
 {
     public function __construct()
     {
-        parent::__construct('Dami - [Da]tabase [mi]grations for PHP', '0.3');
+        parent::__construct('Dami - [Da]tabase [mi]grations for PHP', '0.9.1');
 
         $dami = new Dami();
-        $migration = new Migration($dami->getContainer());
+
+        $container = $dami->getContainer();        
+        $migration = $container->get('migration');
 
         $this->addCommands(array(
-            new CreateCommand('create', $dami->getContainer()),
+            new CreateCommand('create', $container),
             new MigrateCommand('migrate', $migration),
             new RollbackCommand('rollback', $migration),
-            new StatusCommand('status', $dami->getContainer())
+            new StatusCommand('status', $container)
         ));
     }
 }

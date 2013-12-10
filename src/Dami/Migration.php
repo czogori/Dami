@@ -2,42 +2,65 @@
 
 namespace Dami;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 use Dami\Migration\Direction;
 use Dami\Migration\MigrationFiles;
+use Dami\Migration\SchemaTable;
 use Dami\Migration\Api\MigrationApi;
+use Rentgen\Schema\Info;
+use Rentgen\Schema\Manipulation;
 
 class Migration
 {
-    private $container;
-
-    public function __construct(ContainerInterface $container)
+    /**
+     * @param SchemaTable $schemaTable description
+     * @param MigrationFiles $migrationFiles description
+     * @param Manipulation $schemaManipulation description
+     * @param Info $schemaInfo description
+     */
+    public function __construct(SchemaTable $schemaTable, MigrationFiles $migrationFiles, Manipulation $schemaManipulation, Info $schemaInfo)
     {
-        $this->container = $container;
+        $this->schemaTable = $schemaTable;
+        $this->migrationFiles = $migrationFiles;
+        $this->schemaManipulation = $schemaManipulation;
+        $this->schemaInfo = $schemaInfo;
     }
 
+    /**
+     * Migrate a schema.     
+     * 
+     * @return integer Number of migrations.
+     */
     public function migrate()
     {
         return $this->execute(Direction::UP);
     }
 
+    /**
+     * Rollback a schema.
+     *
+     * @param string $version The version of migration to rollback.
+     * 
+     * @return integer Number of migrations.
+     */
     public function rollback($version = null)
     {
         return $this->execute(Direction::DOWN, $version);
     }
 
+    /**
+     * Execute migrate or rollback.
+     * 
+     * @param string $direction Direction of migration (Direction::UP or Direction::DOWN)
+     * @param string $version   The version of migration to rollback or migrate. 
+     * 
+     * @return integer Number of migrations.
+     */
     private function execute($direction = Direction::UP, $version = null)
-    {
-        $schemaTable = $this->container->get('schema_table');
-        $migrationFiles = $this->container->get('migration_files');
-        $schemaManipulation = $this->container->get('schema.manipulation');
-        $schemaInfo = $this->container->get('schema.info');
-
+    {       
         if ($direction === Direction::UP) {
-            $files = $migrationFiles->getFiles();
+            $files = $this->migrationFiles->getFiles();
         } else {
-            $files = '0' === $version ? $migrationFiles->getFilesInReverseOrder() : array($migrationFiles->getLatest());
+            $files = '0' === $version ? $this->migrationFiles->getFilesInReverseOrder() : array($this->migrationFiles->getLatest());
         }
 
         $i = 0;
@@ -53,7 +76,7 @@ class Migration
             require_once $file->path;
 
             $migrationClass = $file->className;
-            $definition = new $migrationClass($schemaManipulation, $schemaInfo);
+            $definition = new $migrationClass($this->schemaManipulation, $this->schemaInfo);
 
             if ($direction == Direction::UP) {
                 $definition->up();
@@ -71,9 +94,9 @@ class Migration
                 }
             }
             if ($direction == Direction::UP) {
-                $schemaTable->up($file->version);
+                $this->schemaTable->up($file->version);
             } else {
-                $schemaTable->down($file->version);
+                $this->schemaTable->down($file->version);
             }
             $i++;
         }
