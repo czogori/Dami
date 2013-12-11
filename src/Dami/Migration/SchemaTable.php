@@ -78,6 +78,17 @@ class SchemaTable
     }
 
     /**
+     * Get current version of migration.
+     * 
+     * @return integer
+     */
+    public function getCurrentVersion()
+    {
+        $versions = $this->getVersions();
+        return count($versions) > 0 ? $versions[0] : 0;
+    }
+
+    /**
      * Create schema table if not exists.
      *
      * @return void
