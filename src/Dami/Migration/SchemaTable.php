@@ -35,30 +35,14 @@ class SchemaTable
         $this->createIfNotExists();
     }
 
-    /**
-     * Add a new migrate entry.
-     *
-     * @param string $version Version of migration.
-     *
-     * @return void
-     */
-    public function up($version)
+    public function migrateToVersion($version)
     {
-        $sql = sprintf('INSERT INTO schema_migration (version,created_at) VALUES (%s, now())', $version);
-        $this->connection->execute($sql);
-    }
-
-    /**
-     * Delete a migrate entry.
-     *
-     * @param string $version Version of migration.
-     *
-     * @return void
-     */
-    public function down($version)
-    {
-        $sql = sprintf('DELETE FROM schema_migration WHERE version = \'%s\'', $version);
-        $this->connection->execute($sql);
+        $currentVersion = $this->getCurrentVersion();
+        if((int) $version > $currentVersion) {
+            $this->up($version);
+        } else {
+            $this->down($version);
+        }
     }
 
     /**
@@ -86,6 +70,43 @@ class SchemaTable
     {
         $versions = $this->getVersions();
         return count($versions) > 0 ? $versions[0] : 0;
+    }
+
+    /**
+     * Get previous version of migration.
+     * 
+     * @return integer
+     */
+    public function getPreviousVersion()
+    {
+        $versions = $this->getVersions();
+        return count($versions) > 1 ? $versions[1] : 0;
+    }
+
+    /**
+     * Add a new migrate entry.
+     *
+     * @param string $version Version of migration.
+     *
+     * @return void
+     */
+    private function up($version)
+    {
+        $sql = sprintf('INSERT INTO schema_migration (version,created_at) VALUES (%s, now())', $version);
+        $this->connection->execute($sql);
+    }
+
+    /**
+     * Delete a migrate entry.
+     *
+     * @param string $version Version of migration.
+     *
+     * @return void
+     */
+    private function down($version)
+    {
+        $sql = sprintf('DELETE FROM schema_migration WHERE version = \'%s\'', $version);
+        $this->connection->execute($sql);
     }
 
     /**

@@ -26,59 +26,47 @@ class Migration
     }
 
     /**
-     * Migrate a schema.     
+     * Migrate the schema to the given version.
      * 
      * @return integer Number of migrations.
      */
-    public function migrate()
+    public function migrate($version)
     {
-        return $this->execute(Direction::UP);
+        return $this->execute($version);
     }
 
     /**
-     * Rollback a schema.
-     *
-     * @param string $version The version of migration to rollback.
+     * Migrate the schema to previous version.     
      * 
      * @return integer Number of migrations.
      */
-    public function rollback($version = null)
-    {
-        return $this->execute(Direction::DOWN, $version);
+    public function migrateToPreviousVersion()
+    {                
+        return $this->execute($this->schemaTable->getPreviousVersion());   
     }
 
     /**
-     * Execute migrate or rollback.
-     * 
-     * @param string $direction Direction of migration (Direction::UP or Direction::DOWN)
+     * Execute migrate.
+     *      
      * @param string $version   The version of migration to rollback or migrate. 
      * 
-     * @return integer Number of migrations.
+     * @return integer Number of executed migrations.
      */
-    private function execute($direction = Direction::UP, $version = null)
+    private function execute($version = null)
     {       
-        if ($direction === Direction::UP) {
-            $files = $this->migrationFiles->getFiles();
-        } else {
-            $files = '0' === $version ? $this->migrationFiles->getFilesInReverseOrder() : array($this->migrationFiles->getLatest());
+        $migrateUp = null === $version || $version > $this->schemaTable->getCurrentVersion();        
+        $files = $this->migrationFiles->get($version);
+        if(null === $files) {
+            return 0;
         }
-
-        $i = 0;
         foreach ($files as $file) {
-
-            if (null === $file) {
-                break;
-            }
-            if ($file->isMigrated && $direction == Direction::UP) {
-                continue;
-            }
 
             require_once $file->path;
 
             $migrationClass = $file->className;
             $definition = new $migrationClass($this->schemaManipulation, $this->schemaInfo);
 
-            if ($direction == Direction::UP) {
+            if ($migrateUp) {
                 $definition->up();
             } else {
                 $definition->down();
@@ -93,14 +81,9 @@ class Migration
                     $action->execute();
                 }
             }
-            if ($direction == Direction::UP) {
-                $this->schemaTable->up($file->version);
-            } else {
-                $this->schemaTable->down($file->version);
-            }
-            $i++;
+            $this->schemaTable->migrateToVersion($file->version);        
         }
 
-        return $i;
+        return count($files);
     }
 }
