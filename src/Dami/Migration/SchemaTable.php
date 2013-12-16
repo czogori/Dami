@@ -35,6 +35,13 @@ class SchemaTable
         $this->createIfNotExists();
     }
 
+    /**
+     * Migrare to given version.
+     * 
+     * @param string $version Version of migration.
+     * 
+     * @return void
+     */
     public function migrateToVersion($version)
     {
         $currentVersion = $this->getCurrentVersion();
