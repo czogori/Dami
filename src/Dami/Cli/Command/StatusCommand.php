@@ -24,8 +24,8 @@ class StatusCommand extends ContainerAwareCommand
         $migrationFiles->statusIntention();
         $rows = array();
         foreach ($migrationFiles->get() as $migrationFile) {
-            $status = $migrationFile->isMigrated ? 'Migrated' : 'Not migrated';
-            $rows[] = array($status, $migrationFile->version, $migrationFile->name);
+            $status = $migrationFile->isMigrated() ? 'Migrated' : 'Not migrated';
+            $rows[] = array($status, $migrationFile->getVersion(), $migrationFile->getName());
         }
 
         $table = $this->getHelperSet()->get('table');

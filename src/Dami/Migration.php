@@ -61,9 +61,9 @@ class Migration
         }
         foreach ($files as $file) {
 
-            require_once $file->path;
+            require_once $file->getPath();
 
-            $migrationClass = $file->className;
+            $migrationClass = $file->getClassName();
             $definition = new $migrationClass($this->schemaManipulation, $this->schemaInfo);
 
             if ($migrateUp) {
@@ -81,7 +81,7 @@ class Migration
                     $action->execute();
                 }
             }
-            $this->schemaTable->migrateToVersion($file->version);        
+            $this->schemaTable->migrateToVersion($file->getVersion());        
         }
 
         return count($files);

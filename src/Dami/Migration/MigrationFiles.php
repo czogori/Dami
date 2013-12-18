@@ -40,19 +40,15 @@ class MigrationFiles
 
             $isMigrated = in_array($filenameParser->getVersion(), $this->schemaTable->getVersions());
 
-            $migrationFile = new MigrationFile();
-            $migrationFile->path = $file->getRealpath();
-            $migrationFile->version = $filenameParser->getVersion();
-            $migrationFile->className = $filenameParser->getMigrationClassName();
-            $migrationFile->name = $filenameParser->getMigrationName();
-            $migrationFile->isMigrated = $isMigrated;            
+            $migrationFile = new MigrationFile($filenameParser->getMigrationName(), $file->getRealpath(), 
+                $filenameParser->getVersion(), $filenameParser->getMigrationClassName(), $isMigrated);            
             
             if(false === $this->statusIntention) {                
                 if($migrateUp && $isMigrated 
                     || !$migrateUp && !$isMigrated) {
                     continue;
                 }
-                if($version == $migrationFile->version) {
+                if($version == $migrationFile->getVersion()) {
                     if($migrateUp) {
                         $migrationFiles[] = $migrationFile;
                     }
