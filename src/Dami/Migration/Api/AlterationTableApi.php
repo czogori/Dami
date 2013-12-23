@@ -28,7 +28,7 @@ class AlterationTableApi
         $column = new StringColumn($name, $options);
         $column->setTable($this->table);
         $this->actions[] =  function () use ($manipulation, $column) {
-             return $manipulation->addColumn($column);
+             return $manipulation->create($column);
         };
 
         return $this;
@@ -41,7 +41,7 @@ class AlterationTableApi
         $column = new StringColumn($name);
         $column->setTable($this->table);
         $this->actions[] =  function () use ($manipulation, $column) {
-             return $manipulation->dropColumn($column);
+             return $manipulation->drop($column);
         };
 
         return $this;
@@ -57,7 +57,7 @@ class AlterationTableApi
 
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $foreignKey) {
-             return $manipulation->addConstraint($foreignKey);
+             return $manipulation->create($foreignKey);
         };
 
         return $this;
@@ -73,7 +73,7 @@ class AlterationTableApi
 
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $foreignKey) {
-             return $manipulation->dropConstraint($foreignKey);
+             return $manipulation->drop($foreignKey);
         };
 
         return $this;
@@ -85,7 +85,7 @@ class AlterationTableApi
 
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $unique) {
-             return $manipulation->addConstraint($unique);
+             return $manipulation->create($unique);
         };
 
         return $this;
@@ -97,7 +97,7 @@ class AlterationTableApi
 
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $unique) {
-             return $manipulation->dropConstraint($unique);
+             return $manipulation->drop($unique);
         };
 
         return $this;
@@ -109,7 +109,7 @@ class AlterationTableApi
 
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $index) {
-             return $manipulation->createIndex($index);
+             return $manipulation->create($index);
         };
 
         return $this;
@@ -121,7 +121,7 @@ class AlterationTableApi
 
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $index) {
-             return $manipulation->dropIndex($index);
+             return $manipulation->drop($index);
         };
 
         return $this;

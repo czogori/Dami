@@ -134,6 +134,6 @@ class SchemaTable
         $table
             ->addColumn(new BigIntegerColumn('version'))
             ->addColumn(new DateTimeColumn('created_at', array('nullable' => false, 'default' => 'now()')));
-        $this->manipulation->createTable($table);
+        $this->manipulation->create($table);
     }
 }

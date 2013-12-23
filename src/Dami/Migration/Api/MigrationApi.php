@@ -51,7 +51,7 @@ abstract class MigrationApi
 
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $table) {
-             return $manipulation->createTable($table);
+             return $manipulation->create($table);
         };
 
         return $table;
@@ -73,7 +73,7 @@ abstract class MigrationApi
         $cascade = isset($options['cascade']) ? $options['cascade'] : true;
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $table, $cascade) {
-             return $manipulation->dropTable($table, $cascade);
+             return $manipulation->drop($table, $cascade);
          };
     }
 
@@ -95,7 +95,7 @@ abstract class MigrationApi
 
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $foreignKey) {
-            return $manipulation->addForeignKey($foreignKey);
+            return $manipulation->create($foreignKey);
         };
 
         return $foreignKey;
