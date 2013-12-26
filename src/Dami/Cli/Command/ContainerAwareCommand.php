@@ -9,12 +9,23 @@ abstract class ContainerAwareCommand extends Command
 {
     private $container;
 
-    public function __construct($name = null, ContainerInterface $container)
+    /**
+     * Constructor.
+     * 
+     * @param string             $name      Command name.
+     * @param ContainerInterface $container Container instance.
+     */
+    public function __construct($name, ContainerInterface $container)
     {
         parent::__construct($name);
         $this->container = $container;
     }
 
+     /**
+     * Gets container instance.
+     * 
+     * @return ContainerInterface
+     */
     protected function getContainer()
     {
         return $this->container;
