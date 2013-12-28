@@ -23,8 +23,7 @@ class AlterationTableApi
 
     public function addColumn($name, $options)
     {
-        $manipulation = $this->manipulation;
-        $table = $this->table;
+        $manipulation = $this->manipulation;        
         $column = new StringColumn($name, $options);
         $column->setTable($this->table);
         $this->actions[] =  function () use ($manipulation, $column) {
@@ -36,8 +35,7 @@ class AlterationTableApi
 
     public function dropColumn($name)
     {
-        $manipulation = $this->manipulation;
-        $table = $this->table;
+        $manipulation = $this->manipulation;        
         $column = new StringColumn($name);
         $column->setTable($this->table);
         $this->actions[] =  function () use ($manipulation, $column) {
