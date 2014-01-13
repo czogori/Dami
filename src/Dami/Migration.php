@@ -27,34 +27,34 @@ class Migration
 
     /**
      * Migrate the schema to the given version.
-     * 
+     *
      * @return integer Number of migrations.
      */
-    public function migrate($version)
+    public function migrate($version = null)
     {
         return $this->execute($version);
     }
 
     /**
-     * Migrate the schema to previous version.     
-     * 
+     * Migrate the schema to previous version.
+     *
      * @return integer Number of migrations.
      */
     public function migrateToPreviousVersion()
-    {                
-        return $this->execute($this->schemaTable->getPreviousVersion());   
+    {
+        return $this->execute($this->schemaTable->getPreviousVersion());
     }
 
     /**
      * Execute migrate.
-     *      
-     * @param string $version   The version of migration to rollback or migrate. 
-     * 
+     *
+     * @param string $version   The version of migration to rollback or migrate.
+     *
      * @return integer Number of executed migrations.
      */
     private function execute($version = null)
-    {       
-        $migrateUp = null === $version || $version > $this->schemaTable->getCurrentVersion();        
+    {
+        $migrateUp = null === $version || $version > $this->schemaTable->getCurrentVersion();
         $files = $this->migrationFiles->get($version);
         if(null === $files) {
             return 0;
@@ -77,11 +77,10 @@ class Migration
                 }
                 $action = call_user_func_array($action, array());
                 if ($action instanceof MigrationApi) {
-                    print_r($action);
                     $action->execute();
                 }
             }
-            $this->schemaTable->migrateToVersion($file->getVersion());        
+            $this->schemaTable->migrateToVersion($file->getVersion());
         }
 
         return count($files);

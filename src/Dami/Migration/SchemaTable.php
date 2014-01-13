@@ -37,9 +37,9 @@ class SchemaTable
 
     /**
      * Migrare to given version.
-     * 
+     *
      * @param string $version Version of migration.
-     * 
+     *
      * @return void
      */
     public function migrateToVersion($version)
@@ -70,7 +70,7 @@ class SchemaTable
 
     /**
      * Get current version of migration.
-     * 
+     *
      * @return integer
      */
     public function getCurrentVersion()
@@ -81,7 +81,7 @@ class SchemaTable
 
     /**
      * Get previous version of migration.
-     * 
+     *
      * @return integer
      */
     public function getPreviousVersion()

@@ -26,7 +26,11 @@ class Dami
         $currentEnvironment = $config['environments']['current_environment'];
 
         $connectionConfig = $config['environments'][$currentEnvironment];
-
+        $connectionConfig['dsn'] = sprintf('%s:host=%s; port=%s; dbname=%s;'
+                , $connectionConfig['adapter']
+                , $connectionConfig['host']
+                , $connectionConfig['port']
+                , $connectionConfig['database']);
         $extensions = array(
             new RentgenExtension($connectionConfig),
             new DamiExtension()

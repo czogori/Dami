@@ -50,7 +50,7 @@ class DamiExtension implements ExtensionInterface
 
         $definition = new Definition('Dami\Migration');
         $definition->setArguments(array(new Reference('schema_table'), new Reference('migration_files'), new Reference('schema.manipulation'), new Reference('schema.info')));
-        $container->setDefinition('migration', $definition);        
+        $container->setDefinition('migration', $definition);
     }
 
     public function getAlias()

@@ -9,11 +9,11 @@ use Rentgen\Database\Constraint\Unique;
 use Rentgen\Database\Column\DateTimeColumn;
 
 class CreationTableApi extends Table
-{   
+{
     /**
      * @param string $method A method name.
      * @param array  $params Parameters.
-     * 
+     *
      * @return CreationTableApi Self.
      */
     public function __call($method, $params)
@@ -42,11 +42,11 @@ class CreationTableApi extends Table
 
     /**
      * Adds a foreign key.
-     * 
+     *
      * @param string $referenceTable   Referenced table name.
      * @param string $referenceColumns Columns of referenced table.
      * @param array  $options          Optional options.
-     * 
+     *
      * @return CreationTableApi Self.
      */
     public function addForeignKey($referenceTable, $referenceColumns, array $options = array())
@@ -56,20 +56,20 @@ class CreationTableApi extends Table
         $foreignKey = new ForeignKey($this, new Table($referenceTable, $schema));
         $foreignKey->setColumns($referenceColumns);
         $foreignKey->setReferencedColumns($referenceColumns);
-        
+
         $this->addConstraint($foreignKey);
 
         return $this;
     }
 
     /**
-     * 
+     *
      * @param array|string $columns Columns of table.
-     * 
+     *
      * @return CreationTableApi Self.
      */
     public function addUnique($columns)
-    {        
+    {
         $this->addConstraint(new Unique($columns, $this));
 
         return $this;
