@@ -19,8 +19,7 @@ class CreateCommand extends ContainerAwareCommand
         $this
             ->setDescription('Create a new migration.')
             ->setDefinition(array(
-                new InputArgument('migration_name', InputArgument::REQUIRED, 'Migration name'),
-                new InputArgument('bundle_name', InputArgument::REQUIRED, 'Bundle name'),
+                new InputArgument('migration_name', InputArgument::REQUIRED, 'Migration name')
         ));
     }
 
