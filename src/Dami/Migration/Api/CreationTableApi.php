@@ -57,6 +57,12 @@ class CreationTableApi extends Table
         $foreignKey->setColumns($referenceColumns);
         $foreignKey->setReferencedColumns($referenceColumns);
 
+        if(isset($options['update'])) {
+            $foreignKey->setUpdateAction($options['update']);
+        }
+        if(isset($options['delete'])) {
+            $foreignKey->setDeleteAction($options['delete']);
+        }
         $this->addConstraint($foreignKey);
 
         return $this;

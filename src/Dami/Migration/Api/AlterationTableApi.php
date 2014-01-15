@@ -23,7 +23,7 @@ class AlterationTableApi
 
     public function addColumn($name, $options)
     {
-        $manipulation = $this->manipulation;        
+        $manipulation = $this->manipulation;
         $column = new StringColumn($name, $options);
         $column->setTable($this->table);
         $this->actions[] =  function () use ($manipulation, $column) {
@@ -35,7 +35,7 @@ class AlterationTableApi
 
     public function dropColumn($name)
     {
-        $manipulation = $this->manipulation;        
+        $manipulation = $this->manipulation;
         $column = new StringColumn($name);
         $column->setTable($this->table);
         $this->actions[] =  function () use ($manipulation, $column) {
@@ -53,6 +53,12 @@ class AlterationTableApi
         $foreignKey->setColumns($referenceColumns);
         $foreignKey->setReferencedColumns($referenceColumns);
 
+        if(isset($options['update'])) {
+            $foreignKey->setUpdateAction($options['update']);
+        }
+        if(isset($options['delete'])) {
+            $foreignKey->setDeleteAction($options['delete']);
+        }
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $foreignKey) {
              return $manipulation->create($foreignKey);
