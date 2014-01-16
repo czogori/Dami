@@ -25,6 +25,7 @@ class CreationTableApi extends Table
             case 'addBooleanColumn':
             case 'addDateTimeColumn':
             case 'addDateColumn':
+            case 'addDecimalColumn':
                 $namespace = 'Rentgen\\Database\\Column\\';
                 $class = $namespace . ltrim($method, 'add');
                 $options = isset($params[1]) ? $params[1] : array();
