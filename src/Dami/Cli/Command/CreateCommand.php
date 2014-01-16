@@ -29,14 +29,19 @@ class CreateCommand extends ContainerAwareCommand
         $migrationName = $arguments['migration_name'];
 
         $filenameBuilder = new FileNameBuilder($migrationName);
-        $fileName = $filenameBuilder->build();
-
         $fileSystem = new Filesystem();
-
         $templateRenderer = $this->getContainer()->get('template_renderer');
         $migrationDirectory = $this->getContainer()->getparameter('migrations_directory');
 
-        $path = $migrationDirectory . '/' . $fileName;
-        $fileSystem->dumpFile($path, $templateRenderer->render($migrationName));
+        try {
+            $fileName = $filenameBuilder->build();
+            $path = $migrationDirectory . '/' . $fileName;
+            $fileSystem->dumpFile($path, $templateRenderer->render($migrationName));
+
+            $output->writeln('<info>Migration has been created.</info>');
+            $output->writeln(sprintf('<comment>Location: %s</comment>', $path));
+        } catch (\Exception $e) {
+            $output->writeln(sprintf("<error>Something went wrong.</error>\n\n%s", $e->getMessage()));
+        }
     }
 }
