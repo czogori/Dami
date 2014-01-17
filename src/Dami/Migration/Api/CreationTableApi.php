@@ -55,9 +55,13 @@ class CreationTableApi extends Table
         $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
 
         $foreignKey = new ForeignKey($this, new Table($referenceTable, $schema));
-        $foreignKey->setColumns($referenceColumns);
         $foreignKey->setReferencedColumns($referenceColumns);
 
+        if(isset($options['column'])) {
+            $foreignKey->setColumns($options['column']);
+        } else {
+            $foreignKey->setColumns($referenceColumns);
+        }
         if(isset($options['update'])) {
             $foreignKey->setUpdateAction($options['update']);
         }
