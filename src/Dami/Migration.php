@@ -71,16 +71,25 @@ class Migration
             } else {
                 $definition->down();
             }
-            foreach ($definition->getActions() as $action) {
-                if (!is_callable($action)) {
-                    throw new InvalidArgumentException('Migration must be callable');
+            $this->schemaManipulation->execute('BEGIN');
+            try {
+                foreach ($definition->getActions() as $action) {
+                    if (!is_callable($action)) {
+                        throw new \InvalidArgumentException('Migration must be callable');
+                    }
+                    $action = call_user_func_array($action, array());
+                    if ($action instanceof MigrationApi) {
+                        $action->execute();
+                    }
                 }
-                $action = call_user_func_array($action, array());
-                if ($action instanceof MigrationApi) {
-                    $action->execute();
-                }
+                $this->schemaTable->migrateToVersion($file->getVersion());
+                $this->schemaManipulation->execute('COMMIT');
+            } catch (\PDOException $e) {
+                $this->schemaManipulation->execute('ROLLBACK');
+                throw $e;
+            } catch (\Exception $e) {
+                throw $e;
             }
-            $this->schemaTable->migrateToVersion($file->getVersion());
         }
 
         return count($files);
