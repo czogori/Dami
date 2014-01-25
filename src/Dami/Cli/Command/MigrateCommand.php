@@ -25,7 +25,11 @@ class MigrateCommand extends MigrationAwareCommand
         $numberMigrations = $migration->migrate($version);
 
         if ($numberMigrations > 0) {
-            $output->writeln('<info>Migration success.</info>');
+            if($numberMigrations == 1) {
+                $output->writeln(sprintf('<info>%d migration was executed.</info>', $numberMigrations));
+            } else {
+                $output->writeln(sprintf('<info>%d migrations were executed.</info>', $numberMigrations));
+            }
         } else {
             $output->writeln(sprintf('<comment>Nothing migrations detected.</comment>'));
         }

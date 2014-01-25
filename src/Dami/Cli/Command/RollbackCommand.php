@@ -21,8 +21,8 @@ class RollbackCommand extends MigrationAwareCommand
     {
         $version = $input->getArgument('to-version');
         $migration = $this->getMigration();
-        if(null === $version) {                        
-            $numberMigrations = $migration->migrateToPreviousVersion();            
+        if(null === $version) {
+            $numberMigrations = $migration->migrateToPreviousVersion();
         } else {
             if($version === 'all') {
                 $version = 0;
@@ -32,9 +32,9 @@ class RollbackCommand extends MigrationAwareCommand
 
         if ($numberMigrations > 0) {
             if ($numberMigrations == 1) {
-                $output->writeln('<info>Rollback last migration success.</info>');
+                $output->writeln('<info>Rollback last migration.</info>');
             } else {
-                $output->writeln(sprintf('<info>Rollback %d migrations success.</info>', $numberMigrations));
+                $output->writeln(sprintf('<info>Rollback %d migrations.</info>', $numberMigrations));
             }
         } else {
             $output->writeln(sprintf('<comment>Nothing migrations detected to rollback.</comment>'));
