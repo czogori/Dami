@@ -21,27 +21,40 @@ class AlterationTableApi
         $this->actions = &$actions;
     }
 
-    public function addColumn($name, $options)
+
+    /**
+     * @param string $method A method name.
+     * @param array  $params Parameters.
+     *
+     * @return CreationTableApi Self.
+     */
+    public function __call($method, $params)
     {
-        $manipulation = $this->manipulation;
-        $column = new StringColumn($name, $options);
+        switch ($method) {
+            case 'addStringColumn':
+            case 'addTextColumn':
+            case 'addIntegerColumn':
+            case 'addBooleanColumn':
+            case 'addDateTimeColumn':
+            case 'addDateColumn':
+            case 'addDecimalColumn':
+                $namespace = 'Rentgen\\Database\\Column\\';
+                $class = $namespace . ltrim($method, 'add');
+                $options = isset($params[1]) ? $params[1] : array();
+                $column = new $class($params[0], $options);
+                break;
+            case 'addTimestamps':
+                $column = new DateTimeColumn('created_at', array('not_null' => true));
+                $column = new DateTimeColumn('updated_at', array('not_null' => true));
+                break;
+            default:
+                throw new \Exception(sprintf("Unsupported method " . $method));
+        }
         $column->setTable($this->table);
+        $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $column) {
              return $manipulation->create($column);
         };
-
-        return $this;
-    }
-
-    public function dropColumn($name)
-    {
-        $manipulation = $this->manipulation;
-        $column = new StringColumn($name);
-        $column->setTable($this->table);
-        $this->actions[] =  function () use ($manipulation, $column) {
-             return $manipulation->drop($column);
-        };
-
         return $this;
     }
 
