@@ -14,7 +14,7 @@ class FileNameParser
         $this->version = $items[0];
 
         $this->name = ltrim($filename, $this->version . '_');
-        $this->name = rtrim($this->name, '.php');
+        $this->name = basename($this->name, '.php');
         $this->className = StringHelper::camelize($this->name) . 'Migration';
     }
 
