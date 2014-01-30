@@ -85,23 +85,6 @@ abstract class MigrationApi
     }
 
     /**
-     * Add foreign key.
-     *
-     * @return ForeignKey ForeignKey instance.
-     */
-    public function addForeignKey()
-    {
-        $foreignKey = new ForeignKey($this->info);
-
-        $manipulation = $this->manipulation;
-        $this->actions[] =  function () use ($manipulation, $foreignKey) {
-            return $manipulation->create($foreignKey);
-        };
-
-        return $foreignKey;
-    }
-
-    /**
      * Execute SQL.
      *
      * @param string $sql SQL to execute.
