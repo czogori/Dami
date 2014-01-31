@@ -18,7 +18,7 @@ class AlterationTableApi
     {
         $this->table = $table;
         $this->manipulation = $manipulation;
-        $this->actions = &$actions;
+        $this->actions = $actions;
     }
 
 
@@ -31,13 +31,18 @@ class AlterationTableApi
     public function __call($method, $params)
     {
         switch ($method) {
+            case 'addBigIngegerColumn':
+            case 'addBinaryColumn':
+            case 'addBooleanColumn':
+            case 'addDateColumn':
+            case 'addDateTimeColumn':
+            case 'addDecimalColumn':
+            case 'addFloatColumn':
+            case 'addIntegerColumn':
+            case 'addSmallIntegerColumn':
             case 'addStringColumn':
             case 'addTextColumn':
-            case 'addIntegerColumn':
-            case 'addBooleanColumn':
-            case 'addDateTimeColumn':
-            case 'addDateColumn':
-            case 'addDecimalColumn':
+            case 'addTimeColumn':
                 $namespace = 'Rentgen\\Database\\Column\\';
                 $class = $namespace . ltrim($method, 'add');
                 $options = isset($params[1]) ? $params[1] : array();
