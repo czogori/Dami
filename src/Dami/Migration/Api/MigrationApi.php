@@ -20,6 +20,7 @@ abstract class MigrationApi
      * Constructor.
      *
      * @param Manipulation $manipulation Manipulation instance.
+     * @param Info         $info         Info instance.
      */
     public function __construct(Manipulation $manipulation, Info $info)
     {
@@ -31,7 +32,7 @@ abstract class MigrationApi
     /**
      * Create new table.
      *
-     * @param string $name    CreationTableApi name.
+     * @param string $name    Table name.
      * @param array  $options Optional options.
      *
      * @return CreationTableApi CreationTableApi instance.
@@ -60,8 +61,8 @@ abstract class MigrationApi
     /**
      * Drop table.
      *
-     * @param  string name    Table name.
-     * @param array $options Optional options.
+     * @param string $name    Table name.
+     * @param array  $options Optional options.
      *
      * @return void
      */
@@ -77,6 +78,14 @@ abstract class MigrationApi
          };
     }
 
+    /**
+     * Alter table.
+     * 
+     * @param string $name    Table name.
+     * @param array  $options Optional options.
+     * 
+     * @return AlterationTableApi
+     */
     public function alterTable($name, array $options = array())
     {
         $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
