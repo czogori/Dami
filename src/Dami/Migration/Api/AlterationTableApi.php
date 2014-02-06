@@ -18,7 +18,7 @@ class AlterationTableApi
     {
         $this->table = $table;
         $this->manipulation = $manipulation;
-        $this->actions = $actions;
+        $this->actions = &$actions;
     }
 
 
