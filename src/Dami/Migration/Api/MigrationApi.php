@@ -80,10 +80,10 @@ abstract class MigrationApi
 
     /**
      * Alter table.
-     * 
+     *
      * @param string $name    Table name.
      * @param array  $options Optional options.
-     * 
+     *
      * @return AlterationTableApi
      */
     public function alterTable($name, array $options = array())
@@ -91,6 +91,38 @@ abstract class MigrationApi
         $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
 
         return new AlterationTableApi(new Table($name, $schema), $this->manipulation, $this->actions);
+    }
+
+    /**
+     * Create new schema.
+     *
+     * @param string $name Schema name.
+     *
+     * @return void
+     */
+    public function createSchema($name)
+    {
+        $schema = new Schema($name);
+        $manipulation = $this->manipulation;
+        $this->actions[] =  function () use ($manipulation, $schema) {
+             return $manipulation->create($schema);
+         };
+    }
+
+    /**
+     * Drop schema.
+     *
+     * @param string $name Schema name.
+     *
+     * @return void
+     */
+    public function dropSchema($name)
+    {
+        $schema = new Schema($name);
+        $manipulation = $this->manipulation;
+        $this->actions[] =  function () use ($manipulation, $schema) {
+             return $manipulation->drop($schema);
+         };
     }
 
     /**
