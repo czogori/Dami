@@ -30,7 +30,7 @@ class MigrationFiles
      */
     public function get($version = null)
     {
-        if($version === $this->currentVersion) {
+        if ($version === $this->currentVersion) {
             return null;
         }
         $migrateUp = null === $version || $version >= $this->currentVersion;
@@ -43,13 +43,13 @@ class MigrationFiles
             $migrationFile = new MigrationFile($filenameParser->getMigrationName(), $file->getRealpath(),
                 $filenameParser->getVersion(), $filenameParser->getMigrationClassName(), $isMigrated);
 
-            if(false === $this->statusIntention) {
-                if($migrateUp && $isMigrated
+            if (false === $this->statusIntention) {
+                if ($migrateUp && $isMigrated
                     || !$migrateUp && !$isMigrated) {
                     continue;
                 }
-                if($version == $migrationFile->getVersion()) {
-                    if($migrateUp) {
+                if ($version == $migrationFile->getVersion()) {
+                    if ($migrateUp) {
                         $migrationFiles[] = $migrationFile;
                     }
                     break;
@@ -57,6 +57,7 @@ class MigrationFiles
             }
             $migrationFiles[] = $migrationFile;
         }
+
         return $migrationFiles;
     }
 

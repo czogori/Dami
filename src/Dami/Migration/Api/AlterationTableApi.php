@@ -2,7 +2,6 @@
 
 namespace Dami\Migration\Api;
 
-use Rentgen\Database\Column\StringColumn;
 use Rentgen\Database\Constraint\ForeignKey;
 use Rentgen\Database\Constraint\Unique;
 use Rentgen\Database\Index;
@@ -20,7 +19,6 @@ class AlterationTableApi
         $this->manipulation = $manipulation;
         $this->actions = &$actions;
     }
-
 
     /**
      * @param string $method A method name.
@@ -60,6 +58,7 @@ class AlterationTableApi
         $this->actions[] =  function () use ($manipulation, $column) {
              return $manipulation->create($column);
         };
+
         return $this;
     }
 
@@ -70,15 +69,15 @@ class AlterationTableApi
         $foreignKey = new ForeignKey($this->table, new Table($referenceTable, $schema));
         $foreignKey->setReferencedColumns($referenceColumns);
 
-        if(isset($options['column'])) {
+        if (isset($options['column'])) {
             $foreignKey->setColumns($options['column']);
         } else {
             $foreignKey->setColumns($referenceColumns);
         }
-        if(isset($options['update'])) {
+        if (isset($options['update'])) {
             $foreignKey->setUpdateAction($options['update']);
         }
-        if(isset($options['delete'])) {
+        if (isset($options['delete'])) {
             $foreignKey->setDeleteAction($options['delete']);
         }
         $manipulation = $this->manipulation;

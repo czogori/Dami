@@ -6,9 +6,9 @@ class StringHelper
 {
     /**
      * Camelize the given string.
-     * 
+     *
      * @param $string String in underscore format.
-     * 
+     *
      * @return string
      */
     public static function camelize($string)
@@ -18,9 +18,9 @@ class StringHelper
 
     /**
      * Underscore the given string.
-     * 
+     *
      * @param $string String in camel case format.
-     * 
+     *
      * @return string
      */
     public static function underscore($string)

@@ -66,7 +66,7 @@ class MigrationNameParserTest extends \PHPUnit_Framework_TestCase
 
         $migrationsNames = array(
             'CreateTableFoo'              => 'table',
-            'AddColumnFooToTableBar'      => 'column',            
+            'AddColumnFooToTableBar'      => 'column',
             'RemoveIndexFooFromTableBar'  => 'index',
         );
         foreach ($migrationsNames as $migrationsName => $expect) {
@@ -81,11 +81,11 @@ class MigrationNameParserTest extends \PHPUnit_Framework_TestCase
 
         $migrationsNames = array(
             'CreateTypeFoo',
-            'AddConstraintFooToTableBar',                        
+            'AddConstraintFooToTableBar',
         );
         foreach ($migrationsNames as $migrationsName) {
             $migrationNameParser->setMigrationName($migrationsName);
-            $this->assertNull($migrationNameParser->getActionObject());            
+            $this->assertNull($migrationNameParser->getActionObject());
         }
     }
 }

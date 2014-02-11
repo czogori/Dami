@@ -2,7 +2,6 @@
 
 namespace Dami;
 
-use Dami\Migration\Direction;
 use Dami\Migration\MigrationFiles;
 use Dami\Migration\SchemaTable;
 use Dami\Migration\Api\MigrationApi;
@@ -12,10 +11,10 @@ use Rentgen\Schema\Manipulation;
 class Migration
 {
     /**
-     * @param SchemaTable $schemaTable description
-     * @param MigrationFiles $migrationFiles description
-     * @param Manipulation $schemaManipulation description
-     * @param Info $schemaInfo description
+     * @param SchemaTable    $schemaTable        description
+     * @param MigrationFiles $migrationFiles     description
+     * @param Manipulation   $schemaManipulation description
+     * @param Info           $schemaInfo         description
      */
     public function __construct(SchemaTable $schemaTable, MigrationFiles $migrationFiles, Manipulation $schemaManipulation, Info $schemaInfo)
     {
@@ -48,7 +47,7 @@ class Migration
     /**
      * Execute migrate.
      *
-     * @param string $version   The version of migration to rollback or migrate.
+     * @param string $version The version of migration to rollback or migrate.
      *
      * @return integer Number of executed migrations.
      */
@@ -56,7 +55,7 @@ class Migration
     {
         $migrateUp = null === $version || $version > $this->schemaTable->getCurrentVersion();
         $files = $this->migrationFiles->get($version);
-        if(null === $files) {
+        if (null === $files) {
             return 0;
         }
         foreach ($files as $file) {

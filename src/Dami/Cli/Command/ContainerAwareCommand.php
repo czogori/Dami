@@ -11,7 +11,7 @@ abstract class ContainerAwareCommand extends Command
 
     /**
      * Constructor.
-     * 
+     *
      * @param string             $name      Command name.
      * @param ContainerInterface $container Container instance.
      */
@@ -23,7 +23,7 @@ abstract class ContainerAwareCommand extends Command
 
      /**
      * Gets container instance.
-     * 
+     *
      * @return ContainerInterface
      */
     protected function getContainer()

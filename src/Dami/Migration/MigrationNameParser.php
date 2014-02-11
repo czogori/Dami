@@ -28,7 +28,7 @@ class MigrationNameParser
         if (count($items) >= 3) {
             $this->action = in_array($items[0], $this->validActions)
                 ? $items[0]
-                : null;            
+                : null;
             $this->actionObject = in_array($items[1], $this->validActionObjects)
                 ? $items[1]
                 : null;

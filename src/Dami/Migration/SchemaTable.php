@@ -45,7 +45,7 @@ class SchemaTable
     public function migrateToVersion($version)
     {
         $currentVersion = $this->getCurrentVersion();
-        if((int) $version > $currentVersion) {
+        if ((int) $version > $currentVersion) {
             $this->up($version);
         } else {
             $this->down($version);
@@ -76,6 +76,7 @@ class SchemaTable
     public function getCurrentVersion()
     {
         $versions = $this->getVersions();
+
         return count($versions) > 0 ? $versions[0] : 0;
     }
 
@@ -87,6 +88,7 @@ class SchemaTable
     public function getPreviousVersion()
     {
         $versions = $this->getVersions();
+
         return count($versions) > 1 ? $versions[1] : 0;
     }
 

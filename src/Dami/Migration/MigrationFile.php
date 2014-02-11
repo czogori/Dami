@@ -8,7 +8,7 @@ class MigrationFile
     private $path;
     private $version;
     private $className;
-    private $isMigrated;    
+    private $isMigrated;
 
     /**
      * @param string $name       Name of migration.
@@ -19,60 +19,60 @@ class MigrationFile
      */
     public function __construct($name, $path, $version, $className, $isMigrated = false)
     {
-    	$this->name = $name;
-    	$this->path = $path;
-    	$this->version = $version;
-    	$this->className = $className;
-    	$this->isMigrated = $isMigrated;
+        $this->name = $name;
+        $this->path = $path;
+        $this->version = $version;
+        $this->className = $className;
+        $this->isMigrated = $isMigrated;
     }
 
     /**
      * Gets name of migration.
-     * 
+     *
      * @return string
      */
     public function getName()
     {
-    	return $this->name;
+        return $this->name;
     }
 
     /**
      * Gets path of migration.
-     * 
+     *
      * @return string
      */
     public function getPath()
     {
-    	return $this->path;
+        return $this->path;
     }
-    
+
     /**
      * Gets version of migration.
-     * 
+     *
      * @return string
      */
     public function getVersion()
     {
-    	return $this->version;
+        return $this->version;
     }
-    
+
     /**
      * Gets class name of migration.
-     * 
+     *
      * @return string
      */
     public function getClassName()
     {
-    	return $this->className;
+        return $this->className;
     }
-    
+
     /**
      * Check if migration is migrated.
-     * 
+     *
      * @return bool
      */
     public function isMigrated()
     {
-    	return $this->isMigrated;
+        return $this->isMigrated;
     }
 }

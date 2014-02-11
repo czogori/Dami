@@ -43,6 +43,7 @@ class CreationTableApi extends Table
             default:
                 throw new \Exception(sprintf("Unsupported method " . $method));
         }
+
         return $this;
     }
 
@@ -62,15 +63,15 @@ class CreationTableApi extends Table
         $foreignKey = new ForeignKey($this, new Table($referenceTable, $schema));
         $foreignKey->setReferencedColumns($referenceColumns);
 
-        if(isset($options['column'])) {
+        if (isset($options['column'])) {
             $foreignKey->setColumns($options['column']);
         } else {
             $foreignKey->setColumns($referenceColumns);
         }
-        if(isset($options['update'])) {
+        if (isset($options['update'])) {
             $foreignKey->setUpdateAction($options['update']);
         }
-        if(isset($options['delete'])) {
+        if (isset($options['delete'])) {
             $foreignKey->setDeleteAction($options['delete']);
         }
         $this->addConstraint($foreignKey);

@@ -17,7 +17,7 @@ class DamiApplication extends Application
 
         $dami = new Dami();
 
-        $container = $dami->getContainer();        
+        $container = $dami->getContainer();
         $migration = $container->get('migration');
 
         $this->addCommands(array(

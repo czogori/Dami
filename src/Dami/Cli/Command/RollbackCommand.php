@@ -21,10 +21,10 @@ class RollbackCommand extends MigrationAwareCommand
     {
         $version = $input->getArgument('to-version');
         $migration = $this->getMigration();
-        if(null === $version) {
+        if (null === $version) {
             $numberMigrations = $migration->migrateToPreviousVersion();
         } else {
-            if($version === 'all') {
+            if ($version === 'all') {
                 $version = 0;
             }
             $numberMigrations = $migration->migrate($version);
