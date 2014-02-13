@@ -18,6 +18,15 @@ class DamiExtension implements ExtensionInterface
             $configFile = $fileLocator->locate('config.yml');
             $config = Yaml::parse($configFile);
             $migrationsDirectory = str_replace('@@DAMI_DIRECTORY@@', getcwd(), $config['migrations']);
+            $currentEnvironment = $config['environments']['current_environment'];
+
+            $connectionConfig = $config['environments'][$currentEnvironment];
+            $connectionConfig['dsn'] = sprintf('%s:host=%s; port=%s; dbname=%s;'
+                , $connectionConfig['adapter']
+                , $connectionConfig['host']
+                , $connectionConfig['port']
+                , $connectionConfig['database']);
+            $container->setParameter('connection_config', $connectionConfig);
         } catch (\InvalidArgumentException $e) {
             foreach ($configs as $config) {
                 if (isset($config['migrations_directory'])) {

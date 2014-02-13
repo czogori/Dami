@@ -19,21 +19,9 @@ class Dami
     {
         $container = new ContainerBuilder();
 
-        $fileLocator = new FileLocator(getcwd());
-        $configFile = $fileLocator->locate('config.yml');
-        $config = Yaml::parse($configFile);
-
-        $currentEnvironment = $config['environments']['current_environment'];
-
-        $connectionConfig = $config['environments'][$currentEnvironment];
-        $connectionConfig['dsn'] = sprintf('%s:host=%s; port=%s; dbname=%s;'
-                , $connectionConfig['adapter']
-                , $connectionConfig['host']
-                , $connectionConfig['port']
-                , $connectionConfig['database']);
         $extensions = array(
-            new RentgenExtension($connectionConfig),
-            new DamiExtension()
+            new DamiExtension(),
+            new RentgenExtension(),
         );
         foreach ($extensions as $extension) {
             $container->registerExtension($extension);
