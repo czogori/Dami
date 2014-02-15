@@ -30,17 +30,6 @@ class MigrationTest extends \PHPUnit_Framework_TestCase
 
     public function testMigrate()
     {
-        $this->assertEquals(2, $this->migration->migrate());
+        $this->assertEquals(1, $this->migration->migrate());
     }
-
-    public function testMigrationToVersion()
-    {
-        $this->assertEquals(1, $this->migration->migrate('20130624094755'));
-    }
-
-    // public function testMigrateToPreviousVersion()
-    // {
-    //     $this->migration->migrate();
-    //     $this->assertEquals(1, $this->migration->migrateToPreviousVersion());
-    // }
 }
