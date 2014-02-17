@@ -37,9 +37,6 @@ class DamiExtension implements ExtensionInterface
         $this->defineParameters($container);
         $container->setParameter('migrations_directory', $migrationsDirectory);
 
-        $definition = new Definition($container->getParameter('service_container.class'));
-        $container->setDefinition('service_container', $definition);
-
         $definition = new Definition($container->getParameter('migration_name_parser.class'));
         $container->setDefinition('migration_name_parser', $definition);
 
@@ -79,7 +76,6 @@ class DamiExtension implements ExtensionInterface
 
     private function defineParameters(ContainerBuilder $container)
     {
-        $container->setParameter('service_container.class', 'Dami\Container');
         $container->setParameter('api.class', 'Dami\Migration\Api\ApiMigration');
         $container->setParameter('template_renderer.class', 'Dami\Migration\TemplateRenderer');
         $container->setParameter('template_initialization.class', 'Dami\Migration\TemplateInitialization');
