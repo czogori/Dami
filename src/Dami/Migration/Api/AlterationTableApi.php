@@ -29,7 +29,7 @@ class AlterationTableApi
     public function __call($method, $params)
     {
         switch ($method) {
-            case 'addBigIngegerColumn':
+            case 'addBigIntegerColumn':
             case 'addBinaryColumn':
             case 'addBooleanColumn':
             case 'addDateColumn':
