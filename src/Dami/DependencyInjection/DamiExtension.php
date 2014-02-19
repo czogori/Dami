@@ -11,6 +11,9 @@ use Symfony\Component\Yaml\Yaml;
 
 class DamiExtension implements ExtensionInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function load(array $configs, ContainerBuilder $container)
     {
         $fileLocator = new FileLocator(getcwd());
@@ -18,15 +21,8 @@ class DamiExtension implements ExtensionInterface
             $configFile = $fileLocator->locate('config.yml');
             $config = Yaml::parse($configFile);
             $migrationsDirectory = str_replace('@@DAMI_DIRECTORY@@', getcwd(), $config['migrations']);
-            $currentEnvironment = $config['environments']['current_environment'];
 
-            $connectionConfig = $config['environments'][$currentEnvironment];
-            $connectionConfig['dsn'] = sprintf('%s:host=%s; port=%s; dbname=%s;'
-                , $connectionConfig['adapter']
-                , $connectionConfig['host']
-                , $connectionConfig['port']
-                , $connectionConfig['database']);
-            $container->setParameter('connection_config', $connectionConfig);
+            $this->defineConnectionConfigParameter($container, $config);
         } catch (\InvalidArgumentException $e) {
             foreach ($configs as $config) {
                 if (isset($config['migrations_directory'])) {
@@ -59,26 +55,62 @@ class DamiExtension implements ExtensionInterface
         $container->setDefinition('migration', $definition);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getAlias()
     {
         return 'dami';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getXsdValidationBasePath()
     {
         return false;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getNamespace()
     {
         return 'http://www.example.com/symfony/schema/';
     }
 
+    /**
+     * Define parameters.
+     *
+     * @param ContainerBuilder $container
+     *
+     * @return void
+     */
     private function defineParameters(ContainerBuilder $container)
     {
         $container->setParameter('api.class', 'Dami\Migration\Api\ApiMigration');
         $container->setParameter('template_renderer.class', 'Dami\Migration\TemplateRenderer');
         $container->setParameter('template_initialization.class', 'Dami\Migration\TemplateInitialization');
         $container->setParameter('migration_name_parser.class', 'Dami\Migration\MigrationNameParser');
+    }
+
+    /**
+     * Define connection config parameters.
+     *
+     * @param ContainerBuilder $container
+     * @param array            $config
+     *
+     * @return void
+     */
+    private function defineConnectionConfigParameter(ContainerBuilder $container, $config)
+    {
+        $currentEnvironment = $config['environments']['current_environment'];
+        $connectionConfig = $config['environments'][$currentEnvironment];
+        $connectionConfig['dsn'] = sprintf('%s:host=%s; port=%s; dbname=%s;'
+            , $connectionConfig['adapter']
+            , $connectionConfig['host']
+            , $connectionConfig['port']
+            , $connectionConfig['database']);
+        $container->setParameter('connection_config', $connectionConfig);
     }
 }
