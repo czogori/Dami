@@ -40,7 +40,7 @@ class DamiExtension implements ExtensionInterface
             array(new Reference('dami.migration_name_parser')));
         $container->setDefinition('dami.template_initialization', $definition);
 
-        $definition = new Definition('%dami.template_renderer.class',
+        $definition = new Definition('%dami.template_renderer.class%',
             array(new Reference('dami.template_initialization')));
         $container->setDefinition('dami.template_renderer', $definition);
 
