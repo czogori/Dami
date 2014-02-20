@@ -20,7 +20,7 @@ class StatusCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $migrationFiles = $this->getContainer()->get('migration_files');
+        $migrationFiles = $this->getContainer()->get('dami.migration_files');
         $migrationFiles->statusIntention();
         $rows = array();
         foreach ($migrationFiles->get() as $migrationFile) {

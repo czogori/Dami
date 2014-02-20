@@ -31,28 +31,32 @@ class DamiExtension implements ExtensionInterface
             }
         }
         $this->defineParameters($container);
-        $container->setParameter('migrations_directory', $migrationsDirectory);
+        $container->setParameter('dami.migrations_directory', $migrationsDirectory);
 
-        $definition = new Definition($container->getParameter('migration_name_parser.class'));
-        $container->setDefinition('migration_name_parser', $definition);
+        $definition = new Definition('%dami.migration_name_parser.class%');
+        $container->setDefinition('dami.migration_name_parser', $definition);
 
-        $definition = new Definition($container->getParameter('template_initialization.class'), array(new Reference('migration_name_parser')));
-        $container->setDefinition('template_initialization', $definition);
+        $definition = new Definition('%dami.template_initialization.class%',
+            array(new Reference('dami.migration_name_parser')));
+        $container->setDefinition('dami.template_initialization', $definition);
 
-        $definition = new Definition($container->getParameter('template_renderer.class'), array(new Reference('template_initialization')));
-        $container->setDefinition('template_renderer', $definition);
+        $definition = new Definition('%dami.template_renderer.class',
+            array(new Reference('dami.template_initialization')));
+        $container->setDefinition('dami.template_renderer', $definition);
 
         $definition = new Definition('Dami\Migration\SchemaTable');
-        $definition->setArguments(array(new Reference('connection'), new Reference('schema.manipulation'), new Reference('schema.info')));
-        $container->setDefinition('schema_table', $definition);
+        $definition->setArguments(array(new Reference('connection'),
+            new Reference('schema.manipulation'), new Reference('schema.info')));
+        $container->setDefinition('dami.schema_table', $definition);
 
         $definition = new Definition('Dami\Migration\MigrationFiles');
-        $definition->setArguments(array($migrationsDirectory, new Reference('schema_table')));
-        $container->setDefinition('migration_files', $definition);
+        $definition->setArguments(array($migrationsDirectory, new Reference('dami.schema_table')));
+        $container->setDefinition('dami.migration_files', $definition);
 
         $definition = new Definition('Dami\Migration');
-        $definition->setArguments(array(new Reference('schema_table'), new Reference('migration_files'), new Reference('schema.manipulation'), new Reference('schema.info')));
-        $container->setDefinition('migration', $definition);
+        $definition->setArguments(array(new Reference('dami.schema_table'),
+            new Reference('dami.migration_files'), new Reference('schema.manipulation'), new Reference('schema.info')));
+        $container->setDefinition('dami.migration', $definition);
     }
 
     /**
@@ -88,10 +92,10 @@ class DamiExtension implements ExtensionInterface
      */
     private function defineParameters(ContainerBuilder $container)
     {
-        $container->setParameter('api.class', 'Dami\Migration\Api\ApiMigration');
-        $container->setParameter('template_renderer.class', 'Dami\Migration\TemplateRenderer');
-        $container->setParameter('template_initialization.class', 'Dami\Migration\TemplateInitialization');
-        $container->setParameter('migration_name_parser.class', 'Dami\Migration\MigrationNameParser');
+        $container->setParameter('dami.api.class', 'Dami\Migration\Api\ApiMigration');
+        $container->setParameter('dami.template_renderer.class', 'Dami\Migration\TemplateRenderer');
+        $container->setParameter('dami.template_initialization.class', 'Dami\Migration\TemplateInitialization');
+        $container->setParameter('dami.migration_name_parser.class', 'Dami\Migration\MigrationNameParser');
     }
 
     /**

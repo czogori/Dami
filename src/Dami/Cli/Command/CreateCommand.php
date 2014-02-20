@@ -30,8 +30,8 @@ class CreateCommand extends ContainerAwareCommand
 
         $filenameBuilder = new FileNameBuilder($migrationName);
         $fileSystem = new Filesystem();
-        $templateRenderer = $this->getContainer()->get('template_renderer');
-        $migrationDirectory = $this->getContainer()->getparameter('migrations_directory');
+        $templateRenderer = $this->getContainer()->get('dami.template_renderer');
+        $migrationDirectory = $this->getContainer()->getparameter('dami.migrations_directory');
 
         try {
             $fileName = $filenameBuilder->build();
