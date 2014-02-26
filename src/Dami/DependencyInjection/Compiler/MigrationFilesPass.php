@@ -14,7 +14,7 @@ class MigrationFilesPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $migrationFiles = $container->get('migration_files');
-        $migrationFiles->setSchemaTable($container->get('schema_table'));
+        $migrationFiles = $container->get('dami.migration_files');
+        $migrationFiles->setSchemaTable($container->get('dami.schema_table'));
     }
 }

@@ -46,7 +46,7 @@ class DamiExtension implements ExtensionInterface
 
         $definition = new Definition('Dami\Migration\SchemaTable');
         $definition->setArguments(array(new Reference('connection'),
-            new Reference('schema.manipulation'), new Reference('schema.info')));
+            new Reference('rentgen.schema.manipulation'), new Reference('rentgen.schema.info')));
         $container->setDefinition('dami.schema_table', $definition);
 
         $definition = new Definition('Dami\Migration\MigrationFiles');
@@ -55,7 +55,7 @@ class DamiExtension implements ExtensionInterface
 
         $definition = new Definition('Dami\Migration');
         $definition->setArguments(array(new Reference('dami.schema_table'),
-            new Reference('dami.migration_files'), new Reference('schema.manipulation'), new Reference('schema.info')));
+            new Reference('dami.migration_files'), new Reference('rentgen.schema.manipulation'), new Reference('rentgen.schema.info')));
         $container->setDefinition('dami.migration', $definition);
     }
 
