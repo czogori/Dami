@@ -20,18 +20,19 @@ class DamiExtension implements ExtensionInterface
         try {
             $configFile = $fileLocator->locate('config.yml');
             $config = Yaml::parse($configFile);
-            $migrationsDirectory = str_replace('@@DAMI_DIRECTORY@@', getcwd(), $config['migrations']);
-
+            $container->setParameter('dami.migrations_directory', str_replace('@@DAMI_DIRECTORY@@', getcwd(), $config['migrations']));
             $this->defineConnectionConfigParameter($container, $config);
         } catch (\InvalidArgumentException $e) {
             foreach ($configs as $config) {
                 if (isset($config['migrations_directory'])) {
-                    $migrationsDirectory = $config['migrations_directory'];
+                    $container->setParameter('dami.migrations_directory', $config['migrations_directory']);
                 }
             }
         }
         $this->defineParameters($container);
-        $container->setParameter('dami.migrations_directory', $migrationsDirectory);
+         if(!$container->hasParameter('dami.migrations_directory')) {
+            $container->setParameter('dami.migrations_directory', $migrationsDirectory);
+        }
 
         $definition = new Definition('%dami.migration_name_parser.class%');
         $container->setDefinition('dami.migration_name_parser', $definition);
@@ -50,7 +51,7 @@ class DamiExtension implements ExtensionInterface
         $container->setDefinition('dami.schema_table', $definition);
 
         $definition = new Definition('Dami\Migration\MigrationFiles');
-        $definition->setArguments(array($migrationsDirectory, new Reference('dami.schema_table')));
+        $definition->setArguments(array('%dami.migrations_directory%', new Reference('dami.schema_table')));
         $container->setDefinition('dami.migration_files', $definition);
 
         $definition = new Definition('Dami\Migration');
