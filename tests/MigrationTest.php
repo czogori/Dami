@@ -17,10 +17,10 @@ class MigrationTest extends \PHPUnit_Framework_TestCase
         $container = $dami->getContainer();
 
         $connection = $container->get('connection');
-        $schemaManipulation = $container->get('schema.manipulation');
+        $schemaManipulation = $container->get('rentgen.schema.manipulation');
         $schemaManipulation->clearDatabase();
-        $schemaInfo = $container->get('schema.info');
-        $schemaTable = $container->get('schema_table');
+        $schemaInfo = $container->get('rentgen.schema.info');
+        $schemaTable = $container->get('dami.schema_table');
 
         $migrationFiles = new MigrationFiles(__DIR__ . '/Fixtures/Migrations', $schemaTable);
 
