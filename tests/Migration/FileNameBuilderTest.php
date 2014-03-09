@@ -9,7 +9,6 @@ use Dami\Migration\FileNameBuilder;
  */
 class FileNameBuilderTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @expectedException InvalidArgumentException
      */
