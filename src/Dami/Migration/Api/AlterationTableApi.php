@@ -13,6 +13,13 @@ class AlterationTableApi
 {
     private $alterTable = false;
 
+    /**
+     * Constructor.
+     *
+     * @param Table        $table
+     * @param Manipulation $manipulation
+     * @param array        $actions
+     */
     public function __construct(Table $table, Manipulation $manipulation, &$actions)
     {
         $this->table = $table;
@@ -24,7 +31,7 @@ class AlterationTableApi
      * @param string $method A method name.
      * @param array  $params Parameters.
      *
-     * @return CreationTableApi Self.
+     * @return AlterationTableApi Self.
      */
     public function __call($method, $params)
     {
@@ -62,6 +69,15 @@ class AlterationTableApi
         return $this;
     }
 
+    /**
+     * Add a foreign key.
+     *
+     * @param string $referenceTable   Referenced table name.
+     * @param string $referenceColumns Columns of referenced table.
+     * @param array  $options          Optional options.
+     *
+     * @return AlterationTableApi Self.
+     */
     public function addForeignKey($referenceTable, $referenceColumns, array $options = array())
     {
         $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
@@ -88,6 +104,15 @@ class AlterationTableApi
         return $this;
     }
 
+    /**
+     * Drop a foreign key.
+     *
+     * @param string $referenceTable   Referenced table name.
+     * @param string $referenceColumns Columns of referenced table.
+     * @param array  $options          Optional options.
+     *
+     * @return AlterationTableApi Self.
+     */
     public function dropForeignKey($referenceTable, $referenceColumns, array $options = array())
     {
         $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
@@ -104,6 +129,13 @@ class AlterationTableApi
         return $this;
     }
 
+    /**
+     * Add a unique constraint.
+     *
+     * @param array $columns Unique columns.
+     *
+     * @return AlterationTableApi Self.
+     */
     public function addUnique($columns)
     {
         $unique = new Unique($columns, $this->table);
@@ -116,6 +148,13 @@ class AlterationTableApi
         return $this;
     }
 
+    /**
+     * Drop a unique constraint.
+     *
+     * @param array $columns Unique columns.
+     *
+     * @return AlterationTableApi Self.
+     */
     public function dropUnique($columns)
     {
         $unique = new Unique($columns, $this->table);
@@ -128,6 +167,13 @@ class AlterationTableApi
         return $this;
     }
 
+    /**
+     * Add a index on columns.
+     *
+     * @param array $columns Index columns.
+     *
+     * @return AlterationTableApi Self.
+     */
     public function addIndex($columns)
     {
         $index = new Index($columns, $this->table);
@@ -140,6 +186,13 @@ class AlterationTableApi
         return $this;
     }
 
+    /**
+     * Drop a index on columns.
+     *
+     * @param array $columns Index columns.
+     *
+     * @return AlterationTableApi Self.
+     */
     public function dropIndex($columns)
     {
         $index = new Index($columns, $this->table);
