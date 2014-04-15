@@ -3,11 +3,11 @@
     "description": "Database migrations on Symfony2 stack",
     "keywords": [ "database migrations", "postgres" ],
     "homepage": "https://github.com/czogori/Dami",
-    "license": "MIT",    
-    "require": {        
+    "license": "MIT",
+    "require": {
         "php": ">=5.3.2",
-        "symfony/console": "2.4.*@dev",        
-        "symfony/templating": "2.4.*@dev",        
+        "symfony/console": "2.4.*@dev",
+        "symfony/templating": "2.4.*@dev",
         "czogori/rentgen": "dev-master"
     },
     "authors": [
