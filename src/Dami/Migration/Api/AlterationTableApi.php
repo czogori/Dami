@@ -2,6 +2,7 @@
 
 namespace Dami\Migration\Api;
 
+use Rentgen\Database\Column\TextColumn;
 use Rentgen\Database\Constraint\ForeignKey;
 use Rentgen\Database\Constraint\Unique;
 use Rentgen\Database\Index;
@@ -64,6 +65,26 @@ class AlterationTableApi
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $column) {
              return $manipulation->create($column);
+        };
+
+        return $this;
+    }
+
+    /**
+     * Drop a column.
+     *
+     * @param string $name Column name.
+     *
+     * @return AlterationTableApi Self.
+     */
+    public function dropColumn($name)
+    {
+        $column = new TextColumn($name);
+        $column->setTable($this->table);
+
+        $manipulation = $this->manipulation;
+        $this->actions[] =  function () use ($manipulation, $column) {
+             return $manipulation->drop($column);
         };
 
         return $this;
