@@ -8,8 +8,6 @@ use Rentgen\Database\Table;
 use Rentgen\Schema\Manipulation;
 use Rentgen\Schema\Info;
 
-use Dami\Migration\Api\CreationTableApi;
-
 abstract class MigrationApi
 {
     private $actions = null;
@@ -40,7 +38,8 @@ abstract class MigrationApi
     public function createTable($name, array $options = array())
     {
         $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
-        $table = new CreationTableApi($name, $schema);
+        //$table = new CreationTableApi($name, $schema);
+        $table = new Table($name, $schema);
 
         $primaryKey = isset($options['primary_key'])
             ? new PrimaryKey($options['primary_key'], $table)
@@ -55,7 +54,7 @@ abstract class MigrationApi
              return $manipulation->create($table);
         };
 
-        return $table;
+        return new TableApi($table, $this->manipulation, $this->actions);
     }
 
     /**

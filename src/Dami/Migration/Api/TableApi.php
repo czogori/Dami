@@ -2,6 +2,7 @@
 
 namespace Dami\Migration\Api;
 
+use Rentgen\Database\Column\DateTimeColumn;
 use Rentgen\Database\Column\TextColumn;
 use Rentgen\Database\Constraint\ForeignKey;
 use Rentgen\Database\Constraint\Unique;
@@ -10,7 +11,7 @@ use Rentgen\Database\Schema;
 use Rentgen\Database\Table;
 use Rentgen\Schema\Manipulation;
 
-class AlterationTableApi
+class TableApi
 {
     private $alterTable = false;
 
@@ -32,7 +33,7 @@ class AlterationTableApi
      * @param string $method A method name.
      * @param array  $params Parameters.
      *
-     * @return AlterationTableApi Self.
+     * @return TableApi Self.
      */
     public function __call($method, $params)
     {
@@ -75,7 +76,7 @@ class AlterationTableApi
      *
      * @param string $name Column name.
      *
-     * @return AlterationTableApi Self.
+     * @return TableApi Self.
      */
     public function dropColumn($name)
     {
@@ -97,7 +98,7 @@ class AlterationTableApi
      * @param string $referenceColumns Columns of referenced table.
      * @param array  $options          Optional options.
      *
-     * @return AlterationTableApi Self.
+     * @return TableApi Self.
      */
     public function addForeignKey($referenceTable, $referenceColumns, array $options = array())
     {
@@ -132,7 +133,7 @@ class AlterationTableApi
      * @param string $referenceColumns Columns of referenced table.
      * @param array  $options          Optional options.
      *
-     * @return AlterationTableApi Self.
+     * @return TableApi Self.
      */
     public function dropForeignKey($referenceTable, $referenceColumns, array $options = array())
     {
@@ -155,7 +156,7 @@ class AlterationTableApi
      *
      * @param array $columns Unique columns.
      *
-     * @return AlterationTableApi Self.
+     * @return TableApi Self.
      */
     public function addUnique($columns)
     {
@@ -174,7 +175,7 @@ class AlterationTableApi
      *
      * @param array $columns Unique columns.
      *
-     * @return AlterationTableApi Self.
+     * @return TableApi Self.
      */
     public function dropUnique($columns)
     {
@@ -193,7 +194,7 @@ class AlterationTableApi
      *
      * @param array $columns Index columns.
      *
-     * @return AlterationTableApi Self.
+     * @return TableApi Self.
      */
     public function addIndex($columns)
     {
@@ -212,7 +213,7 @@ class AlterationTableApi
      *
      * @param array $columns Index columns.
      *
-     * @return AlterationTableApi Self.
+     * @return TableApi Self.
      */
     public function dropIndex($columns)
     {
