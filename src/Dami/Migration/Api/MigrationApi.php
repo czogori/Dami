@@ -39,7 +39,8 @@ abstract class MigrationApi
     {
         $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
         //$table = new CreationTableApi($name, $schema);
-        $table = new Table($name, $schema);
+        $table = new TableApi($name, $schema);
+        $table->init($this->manipulation, $this->actions);
 
         $primaryKey = isset($options['primary_key'])
             ? new PrimaryKey($options['primary_key'], $table)
@@ -54,7 +55,7 @@ abstract class MigrationApi
              return $manipulation->create($table);
         };
 
-        return new TableApi($table, $this->manipulation, $this->actions);
+        return $table;
     }
 
     /**
@@ -88,8 +89,10 @@ abstract class MigrationApi
     public function alterTable($name, array $options = array())
     {
         $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
+        $table = new TableApi($name, $schema);
+        $table->init($this->manipulation, $this->actions);
 
-        return new AlterationTableApi(new Table($name, $schema), $this->manipulation, $this->actions);
+        return $table;
     }
 
     /**

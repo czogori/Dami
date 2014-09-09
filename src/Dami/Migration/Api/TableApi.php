@@ -11,7 +11,7 @@ use Rentgen\Database\Schema;
 use Rentgen\Database\Table;
 use Rentgen\Schema\Manipulation;
 
-class TableApi
+class TableApi extends Table
 {
     private $alterTable = false;
 
@@ -22,9 +22,13 @@ class TableApi
      * @param Manipulation $manipulation
      * @param array        $actions
      */
-    public function __construct(Table $table, Manipulation $manipulation, &$actions)
+    // public function __construct(Table $table)
+    // {
+    //     $this->table = $table;
+    // }
+
+    public function init(Manipulation $manipulation, &$actions)
     {
-        $this->table = $table;
         $this->manipulation = $manipulation;
         $this->actions = &$actions;
     }
@@ -62,7 +66,7 @@ class TableApi
             default:
                 throw new \Exception(sprintf("Unsupported method " . $method));
         }
-        $column->setTable($this->table);
+        $column->setTable($this);
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $column) {
              return $manipulation->create($column);
@@ -81,7 +85,7 @@ class TableApi
     public function dropColumn($name)
     {
         $column = new TextColumn($name);
-        $column->setTable($this->table);
+        $column->setTable($this);
 
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $column) {
@@ -104,7 +108,7 @@ class TableApi
     {
         $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
 
-        $foreignKey = new ForeignKey($this->table, new Table($referenceTable, $schema));
+        $foreignKey = new ForeignKey($this, new Table($referenceTable, $schema));
         $foreignKey->setReferencedColumns($referenceColumns);
 
         if (isset($options['column'])) {
@@ -139,7 +143,7 @@ class TableApi
     {
         $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
 
-        $foreignKey = new ForeignKey($this->table, new Table($referenceTable, $schema));
+        $foreignKey = new ForeignKey($this, new Table($referenceTable, $schema));
         $foreignKey->setColumns($referenceColumns);
         $foreignKey->setReferencedColumns($referenceColumns);
 
@@ -160,7 +164,7 @@ class TableApi
      */
     public function addUnique($columns)
     {
-        $unique = new Unique($columns, $this->table);
+        $unique = new Unique($columns, $this);
 
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $unique) {
@@ -179,7 +183,7 @@ class TableApi
      */
     public function dropUnique($columns)
     {
-        $unique = new Unique($columns, $this->table);
+        $unique = new Unique($columns, $this);
 
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $unique) {
@@ -198,7 +202,7 @@ class TableApi
      */
     public function addIndex($columns)
     {
-        $index = new Index($columns, $this->table);
+        $index = new Index($columns, $this);
 
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $index) {
@@ -217,7 +221,7 @@ class TableApi
      */
     public function dropIndex($columns)
     {
-        $index = new Index($columns, $this->table);
+        $index = new Index($columns, $this);
 
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $index) {
