@@ -38,7 +38,7 @@ abstract class MigrationApi
     public function createTable($name, array $options = array())
     {
         $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
-        //$table = new CreationTableApi($name, $schema);
+
         $table = new TableApi($name, $schema);
         $table->init($this->manipulation, $this->actions);
 
