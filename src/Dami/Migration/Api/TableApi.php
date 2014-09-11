@@ -18,17 +18,14 @@ class TableApi extends Table
     /**
      * Constructor.
      *
-     * @param Table        $table
+     * @param string       $table        Table name.
+     * @param Schema       $schema
      * @param Manipulation $manipulation
      * @param array        $actions
      */
-    // public function __construct(Table $table)
-    // {
-    //     $this->table = $table;
-    // }
-
-    public function init(Manipulation $manipulation, &$actions)
+    public function __construct($name, Schema $schema = null, Manipulation $manipulation, &$actions)
     {
+        parent::__construct($name, $schema);
         $this->manipulation = $manipulation;
         $this->actions = &$actions;
     }
