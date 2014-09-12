@@ -55,19 +55,15 @@ class TableApi extends Table
                 $class = $namespace . ltrim($method, 'add');
                 $options = isset($params[1]) ? $params[1] : array();
                 $column = new $class($params[0], $options);
+                $this->columns[] = new $class($params[0], $options);
                 break;
             case 'addTimestamps':
-                $column = new DateTimeColumn('created_at', array('not_null' => true));
-                $column = new DateTimeColumn('updated_at', array('not_null' => true));
+                $this->columns[] = new DateTimeColumn('created_at', array('not_null' => true));
+                $this->columns[] = new DateTimeColumn('updated_at', array('not_null' => true));
                 break;
             default:
                 throw new \Exception(sprintf("Unsupported method " . $method));
         }
-        $column->setTable($this);
-        $manipulation = $this->manipulation;
-        $this->actions[] =  function () use ($manipulation, $column) {
-             return $manipulation->create($column);
-        };
 
         return $this;
     }
