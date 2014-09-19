@@ -27,11 +27,14 @@ class StatusCommand extends ContainerAwareCommand
             $status = $migrationFile->isMigrated() ? 'Migrated' : 'Not migrated';
             $rows[] = array($status, $migrationFile->getVersion(), $migrationFile->getName());
         }
-
-        $table = $this->getHelperSet()->get('table');
-        $table
-            ->setHeaders(array('Status', 'Version', 'Name'))
-            ->setRows($rows)
-            ->render($output);
+        if (count($rows) > 0) {
+            $table = $this->getHelperSet()->get('table');
+            $table
+                ->setHeaders(array('Status', 'Version', 'Name'))
+                ->setRows($rows)
+                ->render($output);
+        } else {
+            $output->writeln(sprintf('<comment>There are no migrations.</comment>'));
+        }
     }
 }
