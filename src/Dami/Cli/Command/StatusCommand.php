@@ -14,12 +14,15 @@ class StatusCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
+        parent::configure();
         $this
             ->setDescription('Migrations status.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        parent::execute($input, $output);
+
         $migrationFiles = $this->getContainer()->get('dami.migration_files');
         $migrationFiles->statusIntention();
         $rows = array();

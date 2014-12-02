@@ -13,6 +13,8 @@ class MigrateCommand extends MigrationAwareCommand
 {
     protected function configure()
     {
+        parent::configure();
+
         $this
             ->setDescription('Migrate database.')
             ->addArgument('to-version', InputArgument::OPTIONAL, 'Migrate to specific version of migrations');
@@ -20,6 +22,8 @@ class MigrateCommand extends MigrationAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        parent::execute($input, $output);
+
         $version = $input->getArgument('to-version');
         $migration = $this->getMigration();
         $numberMigrations = $migration->migrate($version);

@@ -5,7 +5,7 @@ namespace Dami\Cli\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-abstract class ContainerAwareCommand extends Command
+abstract class ContainerAwareCommand extends AbstractCommand
 {
     private $container;
 

@@ -23,6 +23,7 @@ class DamiExtension implements ExtensionInterface
             $container->setParameter('dami.migrations_directory', str_replace('@@DAMI_DIRECTORY@@', getcwd(), $config['migrations']));
             $this->defineConnectionConfigParameter($container, $config);
         } catch (\InvalidArgumentException $e) {
+            echo $e->getMessage(); 
             foreach ($configs as $config) {
                 if (isset($config['migrations_directory'])) {
                     $container->setParameter('dami.migrations_directory', $config['migrations_directory']);
@@ -109,13 +110,8 @@ class DamiExtension implements ExtensionInterface
      */
     private function defineConnectionConfigParameter(ContainerBuilder $container, $config)
     {
-        $currentEnvironment = $config['environments']['current_environment'];
-        $connectionConfig = $config['environments'][$currentEnvironment];
-        $connectionConfig['dsn'] = sprintf('%s:host=%s; port=%s; dbname=%s;'
-            , $connectionConfig['adapter']
-            , $connectionConfig['host']
-            , $connectionConfig['port']
-            , $connectionConfig['database']);
-        $container->setParameter('connection_config', $connectionConfig);
+        $definition = new Definition('Rentgen\Database\Connection\ConnectionConfig');
+        $definition->setArguments(array($config['environments']));
+        $container->setDefinition('connection_config', $definition);
     }
 }

@@ -16,6 +16,8 @@ class CreateCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
+        parent::configure();
+
         $this
             ->setDescription('Create a new migration.')
             ->setDefinition(array(
@@ -25,6 +27,8 @@ class CreateCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        parent::execute($input, $output);
+
         $arguments = $input->getArguments();
         $migrationName = $arguments['migration_name'];
 

@@ -6,7 +6,7 @@ use Symfony\Component\Console\Command\Command;
 
 use Dami\Migration;
 
-abstract class MigrationAwareCommand extends Command
+abstract class MigrationAwareCommand extends AbstractCommand
 {
     private $migration;
 

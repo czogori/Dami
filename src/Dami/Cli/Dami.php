@@ -20,8 +20,8 @@ class Dami
         $container = new ContainerBuilder();
 
         $extensions = array(
-            new DamiExtension(),
             new RentgenExtension(),
+            new DamiExtension(),
         );
         foreach ($extensions as $extension) {
             $container->registerExtension($extension);

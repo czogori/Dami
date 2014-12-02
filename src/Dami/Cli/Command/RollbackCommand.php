@@ -12,6 +12,8 @@ class RollbackCommand extends MigrationAwareCommand
 {
     protected function configure()
     {
+        parent::configure();
+
         $this
             ->setDescription('Rollback migrations.')
             ->addArgument('to-version', InputArgument::OPTIONAL, 'Rollback to specific version of migrations');
@@ -19,6 +21,8 @@ class RollbackCommand extends MigrationAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        parent::execute($input, $output);
+
         $version = $input->getArgument('to-version');
         $migration = $this->getMigration();
         if (null === $version) {

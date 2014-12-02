@@ -16,5 +16,9 @@ class MigrationFilesPass implements CompilerPassInterface
     {
         $migrationFiles = $container->get('dami.migration_files');
         $migrationFiles->setSchemaTable($container->get('dami.schema_table'));
+
+        $cc = $container->getDefinition('connection_config');
+        print_r($cc);die;
+        
     }
 }
