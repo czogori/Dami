@@ -31,8 +31,6 @@ class SchemaTable
         $this->connection = $connection;
         $this->manipulation = $manipulation;
         $this->info = $info;
-
-        $this->createIfNotExists();
     }
 
     /**
@@ -44,6 +42,7 @@ class SchemaTable
      */
     public function migrateToVersion($version)
     {
+        $this->createIfNotExists();
         $currentVersion = $this->getCurrentVersion();
         if ((int) $version > $currentVersion) {
             $this->up($version);
@@ -59,6 +58,7 @@ class SchemaTable
      */
     public function getVersions()
     {
+        $this->createIfNotExists();
         $sql = 'SELECT version FROM schema_migration ORDER BY version DESC';
         $versions = array();
         foreach ($this->connection->query($sql) as $row) {

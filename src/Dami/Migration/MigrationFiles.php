@@ -18,7 +18,6 @@ class MigrationFiles
     {
         $this->path = $path;
         $this->schemaTable = $schemaTable;
-        $this->currentVersion = $this->schemaTable->getCurrentVersion();
     }
 
     /**
@@ -30,10 +29,11 @@ class MigrationFiles
      */
     public function get($version = null)
     {
-        if ($version === $this->currentVersion) {
+        $currentVersion = $this->schemaTable->getCurrentVersion();
+        if ($version === $currentVersion) {
             return null;
         }
-        $migrateUp = null === $version || $version >= $this->currentVersion;
+        $migrateUp = null === $version || $version >= $currentVersion;
         $migrationFiles = array();
         foreach ($this->getFiles($migrateUp) as $file) {
             $filenameParser = new FileNameParser($file->getFileName());
