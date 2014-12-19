@@ -23,7 +23,6 @@ class DamiExtension implements ExtensionInterface
             $container->setParameter('dami.migrations_directory', str_replace('@@DAMI_DIRECTORY@@', getcwd(), $config['migrations']));
             $this->defineConnectionConfigParameter($container, $config);
         } catch (\InvalidArgumentException $e) {
-            echo $e->getMessage(); 
             foreach ($configs as $config) {
                 if (isset($config['migrations_directory'])) {
                     $container->setParameter('dami.migrations_directory', $config['migrations_directory']);
