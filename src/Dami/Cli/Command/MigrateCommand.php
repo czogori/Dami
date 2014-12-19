@@ -7,9 +7,7 @@ use Symfony\Component\Console\Input\InputArgument,
     Symfony\Component\Console\Input\InputInterface,
     Symfony\Component\Console\Output\OutputInterface;
 
-use Dami\Migration;
-
-class MigrateCommand extends MigrationAwareCommand
+class MigrateCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
@@ -25,7 +23,7 @@ class MigrateCommand extends MigrationAwareCommand
         parent::execute($input, $output);
 
         $version = $input->getArgument('to-version');
-        $migration = $this->getMigration();
+        $migration = $this->getContainer()->get('dami.migration');
         $numberMigrations = $migration->migrate($version);
 
         if ($numberMigrations > 0) {

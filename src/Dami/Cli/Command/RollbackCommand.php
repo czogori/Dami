@@ -6,9 +6,7 @@ use Symfony\Component\Console\Input\InputInterface,
     Symfony\Component\Console\Input\InputArgument,
     Symfony\Component\Console\Output\OutputInterface;
 
-use Dami\Migration;
-
-class RollbackCommand extends MigrationAwareCommand
+class RollbackCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
@@ -24,7 +22,7 @@ class RollbackCommand extends MigrationAwareCommand
         parent::execute($input, $output);
 
         $version = $input->getArgument('to-version');
-        $migration = $this->getMigration();
+        $migration = $this->getContainer()->get('dami.migration');
         if (null === $version) {
             $numberMigrations = $migration->migrateToPreviousVersion();
         } else {

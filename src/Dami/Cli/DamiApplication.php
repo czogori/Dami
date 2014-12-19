@@ -6,8 +6,7 @@ use Symfony\Component\Console\Application;
 use Dami\Cli\Command\CreateCommand,
     Dami\Cli\Command\MigrateCommand,
     Dami\Cli\Command\RollbackCommand,
-    Dami\Cli\Command\StatusCommand,
-    Dami\Migration;
+    Dami\Cli\Command\StatusCommand;
 
 class DamiApplication extends Application
 {
@@ -16,14 +15,12 @@ class DamiApplication extends Application
         parent::__construct('Dami - [Da]tabase [mi]grations for PHP', '0.9.1');
 
         $dami = new Dami();
-
         $container = $dami->getContainer();
-        $migration = $container->get('dami.migration');
 
         $this->addCommands(array(
             new CreateCommand('create', $container),
-            new MigrateCommand('migrate', $migration),
-            new RollbackCommand('rollback', $migration),
+            new MigrateCommand('migrate', $container),
+            new RollbackCommand('rollback', $container),
             new StatusCommand('status', $container)
         ));
     }
