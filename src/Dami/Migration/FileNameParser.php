@@ -2,7 +2,7 @@
 
 namespace Dami\Migration;
 
-use Dami\Helper\StringHelper;
+use Stringy\StaticStringy as S;
 
 class FileNameParser
 {
@@ -20,7 +20,7 @@ class FileNameParser
 
         $this->name = ltrim($filename, $this->version . '_');
         $this->name = basename($this->name, '.php');
-        $this->className = StringHelper::camelize($this->name) . 'Migration';
+        $this->className = S::camelize($this->name) . 'Migration';
     }
 
     /**
