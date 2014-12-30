@@ -2,7 +2,7 @@
 
 namespace Dami\Migration;
 
-use Dami\Helper\StringHelper;
+use Stringy\StaticStringy as S;
 
 class MigrationNameParser
 {
@@ -23,7 +23,7 @@ class MigrationNameParser
     public function setMigrationName($migrationName)
     {
         $this->migrationName = $migrationName;
-        $migrationNameAsUnderscoreSrtring = StringHelper::underscore($migrationName);
+        $migrationNameAsUnderscoreSrtring = S::underscored($migrationName);
         $items = explode('_', $migrationNameAsUnderscoreSrtring);
         if (count($items) >= 3) {
             $this->action = in_array($items[0], $this->validActions)

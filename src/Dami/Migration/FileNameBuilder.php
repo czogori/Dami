@@ -2,7 +2,7 @@
 
 namespace Dami\Migration;
 
-use Dami\Helper\StringHelper;
+use Stringy\StaticStringy as S;
 
 class FileNameBuilder
 {
@@ -36,7 +36,7 @@ class FileNameBuilder
             $timestamp = new \DateTime();
             $timestamp = $timestamp->format('YmdHis');
         }
-        $fileName = sprintf('%s_%s.php', $timestamp, StringHelper::underscore($this->migrationName));
+        $fileName = sprintf('%s_%s.php', $timestamp, S::underscored($this->migrationName));
 
         return $fileName;
     }
