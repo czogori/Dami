@@ -20,7 +20,7 @@ class FileNameParser
 
         $this->name = ltrim($filename, $this->version . '_');
         $this->name = basename($this->name, '.php');
-        $this->className = S::camelize($this->name) . 'Migration';
+        $this->className = S::upperCamelize($this->name) . 'Migration';
     }
 
     /**
