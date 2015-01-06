@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": ">=5.3.2",
+        "symfony/console": "~2.5",
         "symfony/templating": "~2.5",
         "czogori/rentgen": "dev-master",
         "danielstjules/stringy": "~1.7"
