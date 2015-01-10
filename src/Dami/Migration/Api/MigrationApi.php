@@ -49,6 +49,9 @@ abstract class MigrationApi
         }
         $table->addConstraint($primaryKey);
 
+        if (isset($options['comment'])) {
+            $table->setDescription($options['comment']);
+        }
         $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $table) {
              return $manipulation->create($table);
