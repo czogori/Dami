@@ -55,7 +55,12 @@ class TableApi extends Table
                 $class = $namespace . ltrim($method, 'add');
                 $options = isset($params[1]) ? $params[1] : array();
                 $column = new $class($params[0], $options);
-                $this->columns[] = new $class($params[0], $options);
+
+                if (isset($options['comment'])) {
+                    $column->setDescription($options['comment']);
+                }
+
+                $this->columns[] = $column;
                 break;
             case 'addTimestamps':
                 $this->columns[] = new DateTimeColumn('created_at', array('not_null' => true));
