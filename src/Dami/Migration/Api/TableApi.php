@@ -54,6 +54,10 @@ class TableApi extends Table
                 $namespace = 'Rentgen\\Database\\Column\\';
                 $class = $namespace . ltrim($method, 'add');
                 $options = isset($params[1]) ? $params[1] : array();
+
+                if ('addStringColumn' === $method && !isset($options['limit'])) {
+                    $options['limit'] = 255;
+                }
                 $column = new $class($params[0], $options);
 
                 if (isset($options['comment'])) {
