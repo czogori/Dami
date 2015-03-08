@@ -33,7 +33,7 @@ class MigrateCommand extends ContainerAwareCommand
                 $output->writeln(sprintf('<info>%d migrations were executed.</info>', $numberMigrations));
             }
         } else {
-            $output->writeln(sprintf('<comment>Nothing migrations detected.</comment>'));
+            $output->writeln(sprintf('<comment>No migrations detected.</comment>'));
         }
     }
 }
