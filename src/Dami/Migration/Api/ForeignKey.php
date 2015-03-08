@@ -16,7 +16,7 @@ class ForeignKey extends RentgenForeignKey
         $this->info = $info;
     }
 
-    public function foreignKey($tableName, $columnNames, array $options = array())
+    public function foreignKey($tableName, $columnNames, array $options = [])
     {
         $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
         $table = new RentgenTable($tableName, $schema);
@@ -27,7 +27,7 @@ class ForeignKey extends RentgenForeignKey
         return $this;
     }
 
-    public function reference($tableName, $columnNames, array $options = array())
+    public function reference($tableName, $columnNames, array $options = [])
     {
         $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
         $table = new RentgenTable($tableName, $schema);

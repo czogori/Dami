@@ -89,9 +89,8 @@ class TableApi extends Table
         $column = new TextColumn($name);
         $column->setTable($this);
 
-        $manipulation = $this->manipulation;
-        $this->actions[] =  function () use ($manipulation, $column) {
-             return $manipulation->drop($column);
+        $this->actions[] =  function () use ($column) {
+             return $this->manipulation->drop($column);
         };
 
         return $this;
@@ -106,7 +105,7 @@ class TableApi extends Table
      *
      * @return TableApi Self.
      */
-    public function addForeignKey($referenceTable, $referenceColumns, array $options = array())
+    public function addForeignKey($referenceTable, $referenceColumns, array $options = [])
     {
         $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
 
@@ -124,9 +123,8 @@ class TableApi extends Table
         if (isset($options['delete'])) {
             $foreignKey->setDeleteAction($options['delete']);
         }
-        $manipulation = $this->manipulation;
-        $this->actions[] =  function () use ($manipulation, $foreignKey) {
-             return $manipulation->create($foreignKey);
+        $this->actions[] =  function () use ($foreignKey) {
+             return $this->manipulation->create($foreignKey);
         };
 
         return $this;
@@ -141,7 +139,7 @@ class TableApi extends Table
      *
      * @return TableApi Self.
      */
-    public function dropForeignKey($referenceTable, $referenceColumns, array $options = array())
+    public function dropForeignKey($referenceTable, $referenceColumns, array $options = [])
     {
         $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
 
@@ -149,9 +147,8 @@ class TableApi extends Table
         $foreignKey->setColumns($referenceColumns);
         $foreignKey->setReferencedColumns($referenceColumns);
 
-        $manipulation = $this->manipulation;
-        $this->actions[] =  function () use ($manipulation, $foreignKey) {
-             return $manipulation->drop($foreignKey);
+        $this->actions[] =  function () use ($foreignKey) {
+             return $this->manipulation->drop($foreignKey);
         };
 
         return $this;
@@ -168,9 +165,8 @@ class TableApi extends Table
     {
         $unique = new Unique($columns, $this);
 
-        $manipulation = $this->manipulation;
-        $this->actions[] =  function () use ($manipulation, $unique) {
-             return $manipulation->create($unique);
+        $this->actions[] =  function () use ($unique) {
+             return $this->manipulation->create($unique);
         };
 
         return $this;
@@ -187,9 +183,8 @@ class TableApi extends Table
     {
         $unique = new Unique($columns, $this);
 
-        $manipulation = $this->manipulation;
-        $this->actions[] =  function () use ($manipulation, $unique) {
-             return $manipulation->drop($unique);
+        $this->actions[] =  function () use ($unique) {
+             return $this->manipulation->drop($unique);
         };
 
         return $this;
@@ -206,9 +201,8 @@ class TableApi extends Table
     {
         $index = new Index($columns, $this);
 
-        $manipulation = $this->manipulation;
-        $this->actions[] =  function () use ($manipulation, $index) {
-             return $manipulation->create($index);
+        $this->actions[] =  function () use ($index) {
+             return $this->manipulation->create($index);
         };
 
         return $this;
@@ -225,9 +219,8 @@ class TableApi extends Table
     {
         $index = new Index($columns, $this);
 
-        $manipulation = $this->manipulation;
-        $this->actions[] =  function () use ($manipulation, $index) {
-             return $manipulation->drop($index);
+        $this->actions[] =  function () use ($index) {
+             return $this->manipulation->drop($index);
         };
 
         return $this;

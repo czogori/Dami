@@ -35,7 +35,7 @@ abstract class MigrationApi
      *
      * @return CreationTableApi CreationTableApi instance.
      */
-    public function createTable($name, array $options = array())
+    public function createTable($name, array $options = [])
     {
         $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
 
@@ -52,9 +52,8 @@ abstract class MigrationApi
         if (isset($options['comment'])) {
             $table->setDescription($options['comment']);
         }
-        $manipulation = $this->manipulation;
-        $this->actions[] =  function () use ($manipulation, $table) {
-             return $manipulation->create($table);
+        $this->actions[] =  function () use ($table) {
+             return $this->manipulation->create($table);
         };
 
         return $table;
@@ -68,15 +67,14 @@ abstract class MigrationApi
      *
      * @return void
      */
-    public function dropTable($name, array $options = array())
+    public function dropTable($name, array $options = [])
     {
         $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
         $table = new Table($name, $schema);
 
         $cascade = isset($options['cascade']) ? $options['cascade'] : true;
-        $manipulation = $this->manipulation;
-        $this->actions[] =  function () use ($manipulation, $table, $cascade) {
-             return $manipulation->drop($table, $cascade);
+        $this->actions[] =  function () use ($table, $cascade) {
+             return $this->manipulation->drop($table, $cascade);
          };
     }
 
@@ -88,7 +86,7 @@ abstract class MigrationApi
      *
      * @return AlterationTableApi
      */
-    public function alterTable($name, array $options = array())
+    public function alterTable($name, array $options = [])
     {
         $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
 
@@ -105,9 +103,8 @@ abstract class MigrationApi
     public function createSchema($name)
     {
         $schema = new Schema($name);
-        $manipulation = $this->manipulation;
-        $this->actions[] =  function () use ($manipulation, $schema) {
-             return $manipulation->create($schema);
+        $this->actions[] =  function () use ($schema) {
+             return $this->manipulation->create($schema);
          };
     }
 
@@ -121,9 +118,8 @@ abstract class MigrationApi
     public function dropSchema($name)
     {
         $schema = new Schema($name);
-        $manipulation = $this->manipulation;
         $this->actions[] =  function () use ($manipulation, $schema) {
-             return $manipulation->drop($schema);
+             return $this->manipulation->drop($schema);
          };
     }
 
