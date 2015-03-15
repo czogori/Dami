@@ -58,20 +58,20 @@ class Migration
         if (null === $files) {
             return 0;
         }
-        foreach ($files as $file) {
+        $this->schemaManipulation->execute('BEGIN');
+        try {
+            foreach ($files as $file) {
 
-            require_once $file->getPath();
+                require_once $file->getPath();
 
-            $migrationClass = $file->getClassName();
-            $definition = new $migrationClass($this->schemaManipulation, $this->schemaInfo);
+                $migrationClass = $file->getClassName();
+                $definition = new $migrationClass($this->schemaManipulation, $this->schemaInfo);
 
-            if ($migrateUp) {
-                $definition->up();
-            } else {
-                $definition->down();
-            }
-            $this->schemaManipulation->execute('BEGIN');
-            try {
+                if ($migrateUp) {
+                    $definition->up();
+                } else {
+                    $definition->down();
+                }
                 foreach ($definition->getActions() as $action) {
                     if (!is_callable($action)) {
                         throw new \InvalidArgumentException('Migration must be callable');
@@ -82,13 +82,11 @@ class Migration
                     }
                 }
                 $this->schemaTable->migrateToVersion($file->getVersion());
-                $this->schemaManipulation->execute('COMMIT');
-            } catch (\PDOException $e) {
-                $this->schemaManipulation->execute('ROLLBACK');
-                throw $e;
-            } catch (\Exception $e) {
-                throw $e;
             }
+            $this->schemaManipulation->execute('COMMIT');
+        } catch (\Exception $e) {
+            $this->schemaManipulation->execute('ROLLBACK');
+            throw $e;
         }
 
         return count($files);
