@@ -30,7 +30,7 @@ class MigrationFiles
     public function get($version = null)
     {
         $currentVersion = $this->schemaTable->getCurrentVersion();
-        if ((int) $version === (int) $currentVersion) {
+        if ($version && (int) $version === (int) $currentVersion) {
             return null;
         }
         $migrateUp = null === $version || $version >= $currentVersion;
