@@ -18,8 +18,7 @@ class DamiExtension implements ExtensionInterface
     {
         $fileLocator = new FileLocator(getcwd());
         try {
-            $configFile = $fileLocator->locate('config.yml');
-            $config = Yaml::parse($configFile);
+            $config = Yaml::parse(file_get_contents('config.yml'));
             $container->setParameter('dami.migrations_directory', str_replace('@@DAMI_DIRECTORY@@', getcwd(), $config['migrations']));
             $this->defineConnectionConfigParameter($container, $config);
         } catch (\InvalidArgumentException $e) {

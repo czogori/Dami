@@ -15,14 +15,6 @@ class FileNameParserTest extends \PHPUnit_Framework_TestCase
         $this->fileNameParser = new FileNameParser($fileName);
     }
 
-    /**
-     * @expectedException Exception
-     */
-    public function test_create_instance_without_argument()
-    {
-        $fileNameParser = new FileNameParser();
-    }
-
     public function test_getVersion()
     {
         $this->assertEquals('20130624094755', $this->fileNameParser->getVersion());
