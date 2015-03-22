@@ -16,7 +16,10 @@ class MigrationTest extends \PHPUnit_Framework_TestCase
         $dami = new Dami();
         $container = $dami->getContainer();
 
-        $connection = $container->get('connection');
+        // Change an environment to test
+        $connectionConfig = $container->get('connection_config');
+        $connectionConfig->changeEnvironment('test');
+
         $schemaManipulation = $container->get('rentgen.schema.manipulation');
         $schemaManipulation->clearDatabase();
         $schemaInfo = $container->get('rentgen.schema.info');
