@@ -8,7 +8,7 @@ php:
 before_script:
   - curl -s http://getcomposer.org/installer | php
   - php composer.phar install --prefer-source
-  - psql -c 'create database dami;' -U postgres
+  - psql -c 'create database dami_test;' -U postgres
 
 script:
   - phpunit --coverage-text
