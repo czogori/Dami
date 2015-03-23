@@ -16,12 +16,12 @@ class DamiExtension implements ExtensionInterface
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $fileLocator = new FileLocator(getcwd());
-        try {
-            $config = Yaml::parse(file_get_contents('config.yml'));
+        $configFilename = 'conig.yml';
+        if (file_exists($configFilename)) {
+            $config = Yaml::parse(file_get_contents($configFilename));
             $container->setParameter('dami.migrations_directory', str_replace('@@DAMI_DIRECTORY@@', getcwd(), $config['migrations']));
             $this->defineConnectionConfigParameter($container, $config);
-        } catch (\InvalidArgumentException $e) {
+        } else {
             foreach ($configs as $config) {
                 if (isset($config['migrations_directory'])) {
                     $container->setParameter('dami.migrations_directory', $config['migrations_directory']);
