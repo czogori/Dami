@@ -27,7 +27,6 @@ class Dami
             $container->registerExtension($extension);
             $container->loadFromExtension($extension->getAlias());
         }
-        $container->addCompilerPass(new ListenerPass(), PassConfig::TYPE_AFTER_REMOVING);
         $container->compile();
 
         $this->container = $container;
