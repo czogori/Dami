@@ -16,7 +16,7 @@ class DamiExtension implements ExtensionInterface
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $configFilename = 'conig.yml';
+        $configFilename = 'config.yml';
         if (file_exists($configFilename)) {
             $config = Yaml::parse(file_get_contents($configFilename));
             $container->setParameter('dami.migrations_directory', str_replace('@@DAMI_DIRECTORY@@', getcwd(), $config['migrations']));
