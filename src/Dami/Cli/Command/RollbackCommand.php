@@ -23,24 +23,25 @@ class RollbackCommand extends ContainerAwareCommand
 
         $version = $input->getArgument('to-version');
         $migration = $this->getContainer()->get('dami.migration');
+
+        $message = function($name, $version) use ($output) {
+                $output->writeln(sprintf('<info>Migration <comment>%s %s</comment> was rollbacked</info>',
+                    $version, $name));
+        };
+        $output->writeln('');
         if (null === $version) {
-            $numberMigrations = $migration->migrateToPreviousVersion();
+            $numberMigrations = $migration->migrateToPreviousVersion($message);
         } else {
             if ($version === 'all') {
                 $version = 0;
             }
-            $numberMigrations = $migration->migrate($version);
+            $numberMigrations = $migration->migrate($version, $message);
         }
 
-        if ($numberMigrations > 0) {
-            if ($numberMigrations == 1) {
-                $output->writeln('<info>Rollback last migration.</info>');
-            } else {
-                $output->writeln(sprintf('<info>Rollback %d migrations.</info>', $numberMigrations));
-            }
-        } else {
+        if (0 === $numberMigrations) {
             $output->writeln(sprintf('<comment>Nothing migrations detected to rollback.</comment>'));
+        } elseif ($numberMigrations > 1) {
+            $output->writeln(sprintf('<info>%d migrations were rollbacked.</info>', $numberMigrations));
         }
-
     }
 }
