@@ -118,7 +118,7 @@ abstract class MigrationApi
     public function dropSchema($name)
     {
         $schema = new Schema($name);
-        $this->actions[] =  function () use ($manipulation, $schema) {
+        $this->actions[] =  function () use ($schema) {
              return $this->manipulation->drop($schema);
          };
     }
