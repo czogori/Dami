@@ -63,7 +63,7 @@ class Migration
             foreach ($files as $file) {
 
                 require_once $file->getPath();
-                
+
                 $migrationClass = $file->getClassName();
                 $definition = new $migrationClass($this->schemaManipulation, $this->schemaInfo);
 
@@ -82,7 +82,7 @@ class Migration
                     }
                 }
                 $this->schemaTable->migrateToVersion($file->getVersion());
-                
+
                 if ($message) {
                     $message($file->getName(), $file->getVersion());
                 }
