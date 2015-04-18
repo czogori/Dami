@@ -39,9 +39,9 @@ class RollbackCommand extends ContainerAwareCommand
         }
 
         if (0 === $numberMigrations) {
-            $output->writeln(sprintf('<comment>Nothing migrations detected to rollback.</comment>'));
+            $output->writeln(sprintf("<comment>Nothing migrations detected to rollback.</comment>"));
         } elseif ($numberMigrations > 1) {
-            $output->writeln(sprintf('<info>%d migrations were rollbacked.</info>', $numberMigrations));
+            $output->writeln(sprintf("\n<info>%d migrations were rollbacked.</info>", $numberMigrations));
         }
     }
 }
