@@ -4,6 +4,7 @@
     "keywords": [ "database migrations", "postgres" ],
     "homepage": "https://github.com/czogori/Dami",
     "license": "MIT",
+    "type": "library",
     "require": {
         "php": ">=5.4",
         "symfony/console": "~2.5",

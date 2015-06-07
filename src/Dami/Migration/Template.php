@@ -6,13 +6,11 @@ class <?php echo $migrationName ?>Migration extends MigrationApi
 {
     public function up()
     {
-        <?php echo $initUp ?>
-        <?php echo "\n" ?>
+        <?php echo $initUp . "\n" ?>
     }
 
     public function down()
     {
-        <?php echo $initDown ?>
-        <?php echo "\n" ?>
+        <?php echo $initDown . "\n" ?>
     }
 }
