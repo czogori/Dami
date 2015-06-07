@@ -23,5 +23,8 @@
         }
     },
     "minimum-stability": "dev",
-    "bin": ["bin/dami"]
+    "bin": ["bin/dami"],
+    "require-dev": {
+        "behat/behat": "~3.0.4"
+    }
 }
