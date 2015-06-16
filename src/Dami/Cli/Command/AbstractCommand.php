@@ -23,5 +23,10 @@ class AbstractCommand extends Command
             $config = $this->getContainer()->get('connection_config');
             $config->changeEnvironment($environment);
         }
+
+        $migrationDirectory = $this->getContainer()->getparameter('dami.migrations_directory');
+        if (!file_exists($migrationDirectory)) {
+            mkdir($migrationDirectory);
+        }
     }
 }
