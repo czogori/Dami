@@ -25,7 +25,7 @@ class RollbackCommand extends ContainerAwareCommand
         $migration = $this->getContainer()->get('dami.migration');
 
         $message = function($name, $version) use ($output) {
-                $output->writeln(sprintf('<info>Migration <comment>%s %s</comment> was rollbacked</info>',
+                $output->writeln(sprintf("\n<comment>Migration %s %s</comment>",
                     $version, $name));
         };
         $output->writeln('');

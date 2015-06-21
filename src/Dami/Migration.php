@@ -67,6 +67,9 @@ class Migration
                 $migrationClass = $file->getClassName();
                 $definition = new $migrationClass($this->schemaManipulation, $this->schemaInfo);
 
+                if ($message) {
+                    $message($file->getName(), $file->getVersion());
+                }
                 if ($migrateUp) {
                     $definition->up();
                 } else {
@@ -82,10 +85,6 @@ class Migration
                     }
                 }
                 $this->schemaTable->migrateToVersion($file->getVersion());
-
-                if ($message) {
-                    $message($file->getName(), $file->getVersion());
-                }
             }
             $this->schemaManipulation->execute('COMMIT');
         } catch (\Exception $e) {

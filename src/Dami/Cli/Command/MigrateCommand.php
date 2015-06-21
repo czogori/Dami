@@ -26,9 +26,9 @@ class MigrateCommand extends ContainerAwareCommand
         $migration = $this->getContainer()->get('dami.migration');
 
         $message = function($name, $version) use ($output) {
-                $output->writeln(sprintf('<info>Migration <comment>%s %s</comment> was executed</info>',
+                $output->writeln(sprintf("\n<comment>Migration %s %s</comment>",
                     $version, $name));
-            };
+        };
         $output->writeln('');
         try {
         $numberMigrations = $migration->migrate($version, $message);
@@ -41,7 +41,7 @@ class MigrateCommand extends ContainerAwareCommand
         } else {
             $output->writeln(sprintf('<comment>No migrations detected.</comment>'));
         }
-        } catch(\Exception $e) {
+      } catch(\PDOException $e) {
             $output->writeln("\n<error>There was something wrong during migration. Database schema has not been changed.</error>");
             if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
                     $output->writeln(sprintf("\n<error>%s</error>", $e->getMessage()));
