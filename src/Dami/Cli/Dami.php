@@ -10,7 +10,7 @@ use Symfony\Component\Yaml\Yaml;
 use Dami\DependencyInjection\DamiExtension;
 use Rentgen\DependencyInjection\RentgenExtension;
 use Rentgen\DependencyInjection\Compiler\ListenerPass;
-
+use Symfony\Component\EventDispatcher\DependencyInjection\RegisterListenersPass;
 class Dami
 {
     private $container;
@@ -27,6 +27,7 @@ class Dami
             $container->registerExtension($extension);
             $container->loadFromExtension($extension->getAlias());
         }
+        $container->addCompilerPass(new RegisterListenersPass());
         $container->compile();
 
         $this->container = $container;
