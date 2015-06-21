@@ -8,6 +8,7 @@ use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\EventDispatcher\DependencyInjection\RegisterListenersPass;
 
 class DamiExtension implements ExtensionInterface
 {
@@ -57,6 +58,12 @@ class DamiExtension implements ExtensionInterface
         $definition->setArguments(array(new Reference('dami.schema_table'),
             new Reference('dami.migration_files'), new Reference('rentgen.schema.manipulation'), new Reference('rentgen.schema.info')));
         $container->setDefinition('dami.migration', $definition);
+
+        $definition = new Definition('Dami\EventListener\SqlSubscriber');
+        $definition->addTag('kernel.event_subscriber');
+        $container->setDefinition('sql.subscriber', $definition);
+
+        
     }
 
     /**
