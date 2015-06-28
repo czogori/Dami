@@ -18,6 +18,8 @@ class AbstractCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->getContainer()->get('dami.verbosity')->change($output->getVerbosity());
+        
         $environment = $input->getOption('env');
         if (null !== $environment) {
             $config = $this->getContainer()->get('connection_config');

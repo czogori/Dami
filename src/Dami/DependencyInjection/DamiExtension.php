@@ -59,11 +59,13 @@ class DamiExtension implements ExtensionInterface
             new Reference('dami.migration_files'), new Reference('rentgen.schema.manipulation'), new Reference('rentgen.schema.info')));
         $container->setDefinition('dami.migration', $definition);
 
-        $definition = new Definition('Dami\EventListener\SqlSubscriber');
-        $definition->addTag('kernel.event_subscriber');
-        $container->setDefinition('sql.subscriber', $definition);
+        $definition = new Definition('Dami\Cli\Verbosity');
+        $container->setDefinition('dami.verbosity', $definition);
 
-        
+        $definition = new Definition('Dami\EventListener\SqlSubscriber',
+          [new Reference('dami.verbosity')]);
+        $definition->addTag('kernel.event_subscriber');
+        $container->setDefinition('dami.sql.subscriber', $definition);
     }
 
     /**

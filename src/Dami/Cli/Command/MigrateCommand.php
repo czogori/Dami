@@ -26,17 +26,16 @@ class MigrateCommand extends ContainerAwareCommand
         $migration = $this->getContainer()->get('dami.migration');
 
         $message = function($name, $version) use ($output) {
-                $output->writeln(sprintf("\n<comment>Migration %s %s</comment>",
+                $output->write(sprintf("\n<comment>Migration %s %s</comment>",
                     $version, $name));
         };
-        $output->writeln('');
         try {
         $numberMigrations = $migration->migrate($version, $message);
         if ($numberMigrations > 0) {
             if ($numberMigrations == 1) {
-                $output->writeln(sprintf("\n<info>%d migration was executed.</info>", $numberMigrations));
+                $output->write(sprintf("\n<info>%d migration was executed.</info>", $numberMigrations));
             } else {
-                $output->writeln(sprintf("\n<info>%d migrations were executed.</info>", $numberMigrations));
+                $output->write(sprintf("\n<info>%d migrations were executed.</info>", $numberMigrations));
             }
         } else {
             $output->writeln(sprintf('<comment>No migrations detected.</comment>'));

@@ -25,10 +25,9 @@ class RollbackCommand extends ContainerAwareCommand
         $migration = $this->getContainer()->get('dami.migration');
 
         $message = function($name, $version) use ($output) {
-                $output->writeln(sprintf("\n<comment>Migration %s %s</comment>",
+                $output->write(sprintf("\n<comment>Migration %s %s</comment>",
                     $version, $name));
         };
-        $output->writeln('');
         if (null === $version) {
             $numberMigrations = $migration->migrateToPreviousVersion($message);
         } else {
