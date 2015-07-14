@@ -1,6 +1,6 @@
 {
     "name": "czogori/dami",
-    "description": "Database migrations on Symfony2 stack",
+    "description": "Database migrations for Postgres",
     "keywords": [ "database migrations", "postgres" ],
     "homepage": "https://github.com/czogori/Dami",
     "license": "MIT",
