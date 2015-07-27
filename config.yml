@@ -14,8 +14,8 @@ environments:
         adapter:  pgsql
         host:     localhost
         database: dami_dev
-        username: postgres
-        password:
+        username: aj
+        password: aj
         port:     5432
 
     test:

@@ -38,42 +38,13 @@ class TableApi extends Table
      */
     public function __call($method, $params)
     {
-        switch ($method) {
-            case 'addBigIntegerColumn':
-            case 'addBinaryColumn':
-            case 'addBooleanColumn':
-            case 'addDateColumn':
-            case 'addDateTimeColumn':
-            case 'addDecimalColumn':
-            case 'addFloatColumn':
-            case 'addIntegerColumn':
-            case 'addSmallIntegerColumn':
-            case 'addStringColumn':
-            case 'addTextColumn':
-            case 'addTimeColumn':
-                $namespace = 'Rentgen\\Database\\Column\\';
-                $class = $namespace . ltrim($method, 'add');
-                $options = isset($params[1]) ? $params[1] : array();
-
-                if ('addStringColumn' === $method && !isset($options['limit'])) {
-                    $options['limit'] = 255;
-                }
-                $column = new $class($params[0], $options);
-
-                if (isset($options['comment'])) {
-                    $column->setDescription($options['comment']);
-                }
-
-                $this->columns[] = $column;
-                break;
-            case 'addTimestamps':
-                $this->columns[] = new DateTimeColumn('created_at', array('not_null' => true));
-                $this->columns[] = new DateTimeColumn('updated_at', array('not_null' => true));
-                break;
-            default:
-                throw new \Exception(sprintf("Unsupported method " . $method));
+        if ($method === 'addTimestamps') {
+            $this->columns[] = new DateTimeColumn('created_at', array('not_null' => true));
+            $this->columns[] = new DateTimeColumn('updated_at', array('not_null' => true));
+        } else {
+            $this->columns[] = (new ColumnFactory($method, $params))->createInstance();
         }
-
+        
         return $this;
     }
 
