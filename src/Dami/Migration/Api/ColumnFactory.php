@@ -7,8 +7,6 @@ class ColumnFactory
     /**
      * @param string $method A method name.
      * @param array  $params Parameters.
-     *
-     * @return TableApi Self.
      */
     public function __construct($method, $params)
     {
@@ -17,8 +15,9 @@ class ColumnFactory
     }
 
     /**
+     * Create a new instance.
      *
-     * @return TableApi Self.
+     * @return Rentgen\Database\Column
      */
     public function createInstance()
     {
