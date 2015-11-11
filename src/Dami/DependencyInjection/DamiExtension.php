@@ -81,7 +81,7 @@ class DamiExtension implements ExtensionInterface
      */
     public function getXsdValidationBasePath()
     {
-        return false;
+        return '';
     }
 
     /**
