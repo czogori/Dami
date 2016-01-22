@@ -31,7 +31,7 @@ class DamiExtension implements ExtensionInterface
         }
         $this->defineParameters($container);
          if(!$container->hasParameter('dami.migrations_directory')) {
-            $container->setParameter('dami.migrations_directory', $migrationsDirectory);
+            $container->setParameter('dami.migrations_directory', getcwd() . '/migrations');
         }
 
         $definition = new Definition('%dami.migration_name_parser.class%');
