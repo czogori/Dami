@@ -45,6 +45,18 @@ class Migration
     }
 
     /**
+     * Create an instance of migration class.
+     *
+     * @param $className Name of migration class.
+     *
+     * @return mixed
+     */
+    protected function createMigrationApiInstance($className)
+    {
+        return new $className($this->schemaManipulation, $this->schemaInfo);
+    }
+
+    /**
      * Execute migrate.
      *
      * @param string $version The version of migration to rollback or migrate.
@@ -64,8 +76,7 @@ class Migration
 
                 require_once $file->getPath();
 
-                $migrationClass = $file->getClassName();
-                $definition = new $migrationClass($this->schemaManipulation, $this->schemaInfo);
+                $definition = $this->createMigrationApiInstance($file->getClassName());
 
                 if ($message) {
                     $message($file->getName(), $file->getVersion());
