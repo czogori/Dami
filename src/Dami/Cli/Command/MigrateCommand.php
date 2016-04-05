@@ -22,7 +22,7 @@ class MigrateCommand extends ContainerAwareCommand
     {
         parent::execute($input, $output);
 
-        $version = $input->getArgument('to-version');
+        $version = $input->hasArgument('to-version') ? $input->getArgument('to-version') : null;
         $migration = $this->getContainer()->get('dami.migration');
 
         $message = function($name, $version) use ($output) {
