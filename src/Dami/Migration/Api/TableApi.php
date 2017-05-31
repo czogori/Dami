@@ -41,6 +41,9 @@ class TableApi extends Table
         if ($method === 'addTimestamps') {
             $this->columns[] = new DateTimeColumn('created_at', array('not_null' => true));
             $this->columns[] = new DateTimeColumn('updated_at', array('not_null' => true));
+        } elseif ($method === 'addUserstamps') {
+            $this->columns[] = new IntegerColumn('created_by', array('not_null' => true, 'default' => 0));
+            $this->columns[] = new IntegerColumn('updated_by', array('not_null' => true, 'default' => 0));
         } else {
             $this->columns[] = (new ColumnFactory($method, $params))->createInstance();
         }
