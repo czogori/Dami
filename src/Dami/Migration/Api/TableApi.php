@@ -3,6 +3,7 @@
 namespace Dami\Migration\Api;
 
 use Rentgen\Database\Column\DateTimeColumn;
+use Rentgen\Database\Column\IntegerColumn;
 use Rentgen\Database\Column\TextColumn;
 use Rentgen\Database\Constraint\ForeignKey;
 use Rentgen\Database\Constraint\Unique;
@@ -42,8 +43,17 @@ class TableApi extends Table
             $this->columns[] = new DateTimeColumn('created_at', array('not_null' => true));
             $this->columns[] = new DateTimeColumn('updated_at', array('not_null' => true));
         } elseif ($method === 'addUserstamps') {
-            $this->columns[] = new IntegerColumn('created_by', array('not_null' => true, 'default' => 0));
-            $this->columns[] = new IntegerColumn('updated_by', array('not_null' => true, 'default' => 0));
+            $column = new IntegerColumn('created_by', array('not_null' => true, 'default' => 0));
+            $column->setTable($this);
+            $this->actions[] =  function () use ($column) {
+                return $this->manipulation->create($column);
+            };
+
+            $column = new IntegerColumn('updated_by', array('not_null' => true, 'default' => 0));
+            $column->setTable($this);
+            $this->actions[] =  function () use ($column) {
+                return $this->manipulation->create($column);
+            };
         } else {
             $this->columns[] = (new ColumnFactory($method, $params))->createInstance();
         }
