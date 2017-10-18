@@ -90,7 +90,8 @@ abstract class MigrationApi
     {
         $schema = isset($options['schema']) ? new Schema($options['schema']) : null;
 
-        return new TableApi($name, $schema, $this->manipulation, $this->actions);
+        return (new TableApi($name, $schema, $this->manipulation, $this->actions))
+            ->alterTable();
     }
 
     /**
