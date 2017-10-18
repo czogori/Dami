@@ -55,7 +55,15 @@ class TableApi extends Table
                 return $this->manipulation->create($column);
             };
         } else {
-            $this->columns[] = (new ColumnFactory($method, $params))->createInstance();
+            if ($this->alterTable) {
+                $column = (new ColumnFactory($method, $params))->createInstance();
+                $column->setTable($this);
+                $this->actions[] =  function () use ($column) {
+                    return $this->manipulation->create($column);
+                };
+            } else {
+                $this->columns[] = (new ColumnFactory($method, $params))->createInstance();
+            }
         }
         
         return $this;
@@ -206,6 +214,13 @@ class TableApi extends Table
         $this->actions[] =  function () use ($index) {
              return $this->manipulation->drop($index);
         };
+
+        return $this;
+    }
+
+    public function alterTable()
+    {
+        $this->alterTable = true;
 
         return $this;
     }
