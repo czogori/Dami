@@ -52,6 +52,9 @@ class ColumnFactory
             case 'addCustomColumn':
                 $options = isset($this->params[2]) ? $this->params[2] : [];
                 $column = new CustomColumn($this->params[0], $this->params[1], $options);
+                if (isset($options['comment'])) {
+                    $column->setDescription($options['comment']);
+                }
                 break;
             default:
                 throw new \Exception(sprintf("Unsupported method " . $this->method));
