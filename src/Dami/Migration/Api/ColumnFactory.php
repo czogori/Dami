@@ -2,6 +2,8 @@
 
 namespace Dami\Migration\Api;
 
+use Rentgen\Database\Column\CustomColumn;
+
 class ColumnFactory
 {
     /**
@@ -46,6 +48,10 @@ class ColumnFactory
                 if (isset($options['comment'])) {
                     $column->setDescription($options['comment']);
                 }
+                break;
+            case 'addCustomColumn':
+                $options = isset($this->params[2]) ? $this->params[2] : [];
+                $column = new CustomColumn($this->params[0], $this->params[1], $options);
                 break;
             default:
                 throw new \Exception(sprintf("Unsupported method " . $this->method));
