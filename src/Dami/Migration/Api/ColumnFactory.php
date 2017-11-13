@@ -44,20 +44,17 @@ class ColumnFactory
                     $options['limit'] = 255;
                 }
                 $column = new $class($this->params[0], $options);
-
-                if (isset($options['comment'])) {
-                    $column->setDescription($options['comment']);
-                }
                 break;
             case 'addCustomColumn':
                 $options = isset($this->params[2]) ? $this->params[2] : [];
                 $column = new CustomColumn($this->params[0], $this->params[1], $options);
-                if (isset($options['comment'])) {
-                    $column->setDescription($options['comment']);
-                }
                 break;
             default:
                 throw new \Exception(sprintf("Unsupported method " . $this->method));
+        }
+
+        if (isset($options['comment'])) {
+            $column->setDescription($options['comment']);
         }
 
         return $column;
