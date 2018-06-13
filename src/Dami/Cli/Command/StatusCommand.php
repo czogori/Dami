@@ -8,8 +8,6 @@ use Symfony\Component\Console\Input\InputArgument,
     Symfony\Component\Console\Input\InputInterface,
     Symfony\Component\Console\Output\OutputInterface;
 
-use Dami\Migration\MigrationFiles;
-
 class StatusCommand extends ContainerAwareCommand
 {
     protected function configure()
@@ -31,9 +29,8 @@ class StatusCommand extends ContainerAwareCommand
             $rows[] = array($status, $migrationFile->getVersion(), $migrationFile->getName());
         }
         if (count($rows) > 0) {
-            $table = $this->getHelperSet()->get('table');
-            $table
-                ->setHeaders(array('Status', 'Version', 'Name'))
+            (new Console\Helper\Table($output))
+                ->setHeaders(['Status', 'Version', 'Name'])
                 ->setRows($rows)
                 ->render($output);
         } else {
