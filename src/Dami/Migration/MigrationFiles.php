@@ -27,29 +27,27 @@ class MigrationFiles
      *
      * @return MigrationFile[]
      */
-    public function get($version = null)
+    public function get($version = null, $up = true)
     {
         $currentVersion = $this->schemaTable->getCurrentVersion();
         if (null !== $version && (int) $version === (int) $currentVersion) {
             return null;
         }
-        $migrateUp = null === $version || $version >= $currentVersion;
+
         $migrationFiles = array();
-        foreach ($this->getFiles($migrateUp) as $file) {
+        foreach ($this->getFiles($up) as $file) {
             $filenameParser = new FileNameParser($file->getFileName());
-
             $isMigrated = in_array($filenameParser->getVersion(), $this->schemaTable->getVersions());
-
             $migrationFile = new MigrationFile($filenameParser->getMigrationName(), $file->getRealpath(),
                 $filenameParser->getVersion(), $filenameParser->getMigrationClassName(), $isMigrated);
 
             if (false === $this->statusIntention) {
-                if ($migrateUp && $isMigrated
-                    || !$migrateUp && !$isMigrated) {
+                if ($up && $isMigrated
+                    || !$up && !$isMigrated) {
                     continue;
                 }
                 if ($version == $migrationFile->getVersion()) {
-                    if ($migrateUp) {
+                    if ($up) {
                         $migrationFiles[] = $migrationFile;
                     }
                     break;

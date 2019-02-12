@@ -29,9 +29,9 @@ class Migration
      *
      * @return integer Number of migrations.
      */
-    public function migrate($version = null, $message = null)
+    public function migrate($version = null, $message = null, $up = true)
     {
-        return $this->execute($version, $message);
+        return $this->execute($version, $message, $up);
     }
 
     /**
@@ -41,7 +41,7 @@ class Migration
      */
     public function migrateToPreviousVersion($message)
     {
-        return $this->execute($this->schemaTable->getPreviousVersion(), $message);
+        return $this->execute($this->schemaTable->getPreviousVersion(), $message, false);
     }
 
     /**
@@ -63,10 +63,9 @@ class Migration
      *
      * @return integer Number of executed migrations.
      */
-    private function execute($version = null, $message = null)
+    private function execute($version = null, $message = null, $up = true)
     {
-        $migrateUp = null === $version || $version > $this->schemaTable->getCurrentVersion();
-        $files = $this->migrationFiles->get($version);
+        $files = $this->migrationFiles->get($version, $up);
         if (null === $files) {
             return 0;
         }
@@ -81,7 +80,7 @@ class Migration
                 if ($message) {
                     $message($file->getName(), $file->getVersion());
                 }
-                if ($migrateUp) {
+                if ($up) {
                     $definition->up();
                 } else {
                     $definition->down();
@@ -95,7 +94,7 @@ class Migration
                         $action->execute();
                     }
                 }
-                $this->schemaTable->migrateToVersion($file->getVersion());
+                $this->schemaTable->migrateToVersion($file->getVersion(), $up);
             }
             $this->schemaManipulation->execute('COMMIT');
         } catch (\Exception $e) {

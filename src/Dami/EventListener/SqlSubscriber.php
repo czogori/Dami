@@ -2,8 +2,8 @@
 
 namespace Dami\EventListener;
 
+use Rentgen\Event\SqlEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Rentgen\Event\TableEvent;
 use Dami\Cli\Verbosity;
 
 class SqlSubscriber implements EventSubscriberInterface
@@ -15,18 +15,17 @@ class SqlSubscriber implements EventSubscriberInterface
         $this->verbosity = $verbosity;
     }
 
-    public function sqlExecuted(TableEvent $event)
+    public function sqlExecuted(SqlEvent $event)
     {
         if ($this->verbosity->isVerbose()) {
-            echo "\n" . $event->getSql();
+            echo sprintf("\n%s\n", $event->getSql());
         }
     }
 
     public static function getSubscribedEvents()
     {
         return [
-            'table.create' => 'sqlExecuted',
-            'table.drop' => 'sqlExecuted'
+            'rentgen.sql_executed' => 'sqlExecuted'
         ];
     }
 }

@@ -34,7 +34,7 @@ class RollbackCommand extends ContainerAwareCommand
             if ($version === 'all') {
                 $version = 0;
             }
-            $numberMigrations = $migration->migrate($version, $message);
+            $numberMigrations = $migration->migrate($version, $message, false);
         }
 
         if (0 === $numberMigrations) {

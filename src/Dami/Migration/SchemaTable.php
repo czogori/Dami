@@ -40,11 +40,11 @@ class SchemaTable
      *
      * @return void
      */
-    public function migrateToVersion($version)
+    public function migrateToVersion($version, $up = true)
     {
         $this->createIfNotExists();
         $currentVersion = $this->getCurrentVersion();
-        if ((int) $version > $currentVersion) {
+        if ($up) {
             $this->up($version);
         } else {
             $this->down($version);
