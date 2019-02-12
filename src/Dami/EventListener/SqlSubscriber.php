@@ -19,7 +19,7 @@ class SqlSubscriber implements EventSubscriberInterface
     {
         $sql = $event->getSql();
         if ($this->verbosity->isVerbose() && !in_array(strtolower($sql), ['begin', 'commit', 'rollback'])) {
-            echo sprintf("\n%s\n", $event->getSql());
+            echo sprintf("\n%s\n", $sql);
         }
     }
 
