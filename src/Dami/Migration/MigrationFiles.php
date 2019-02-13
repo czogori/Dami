@@ -30,26 +30,29 @@ class MigrationFiles
     public function get($version = null, $up = true)
     {
         $currentVersion = $this->schemaTable->getCurrentVersion();
-        if (null !== $version && (int) $version === (int) $currentVersion) {
+        if (null !== $version && false === $up && (int) $version > (int) $currentVersion) {
+            return null;
+        }
+
+        $files = $this->getFiles($up);
+
+        if (!$this->fileVersionExists($version, $this->getFiles($up))) {
             return null;
         }
 
         $migrationFiles = array();
-        foreach ($this->getFiles($up) as $file) {
+        foreach ($files as $file) {
             $filenameParser = new FileNameParser($file->getFileName());
             $isMigrated = in_array($filenameParser->getVersion(), $this->schemaTable->getVersions());
             $migrationFile = new MigrationFile($filenameParser->getMigrationName(), $file->getRealpath(),
                 $filenameParser->getVersion(), $filenameParser->getMigrationClassName(), $isMigrated);
 
             if (false === $this->statusIntention) {
-                if ($up && $isMigrated
-                    || !$up && !$isMigrated) {
+                if ($up && $isMigrated || !$up && !$isMigrated) {
                     continue;
                 }
                 if ($version == $migrationFile->getVersion()) {
-                    if ($up) {
-                        $migrationFiles[] = $migrationFile;
-                    }
+                    $migrationFiles[] = $migrationFile;
                     break;
                 }
             }
@@ -91,5 +94,29 @@ class MigrationFiles
                     : $a->getRealpath() < $b->getRealpath();
             }
         );
+    }
+
+    /**
+     * Gets files from directory.
+     *
+     * @param bool  $version Version of migration.
+     * $param array $files   Migration files
+     *
+     * @return bool
+     */
+    private function fileVersionExists($version, $files)
+    {
+        if (null === $version || 'all' == $version) {
+            return true;
+        }
+
+        foreach ($files as $file) {
+            $filenameParser = new FileNameParser($file->getFileName());
+            if ($version === $filenameParser->getVersion()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
